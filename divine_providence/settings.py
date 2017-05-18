@@ -121,3 +121,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATICFILES_DIRS = [
+    ('foundjs', os.path.join(BASE_DIR, "static/foundation/js")), # might still have some customizations here
+    ('foundcss', os.path.join(BASE_DIR, "static/foundation/css")), # my generated CSS
+	('bcss', os.path.join(BASE_DIR, "static/bootstrap/css")), # my generated CSS
+	('bjs', os.path.join(BASE_DIR, "static/bootstrap/js")), # my generated CSS
+	('bfonts', os.path.join(BASE_DIR, "static/bootstrap/fonts")), # my generated CSS
+]

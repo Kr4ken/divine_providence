@@ -1,0 +1,41 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'foundcss/normalize.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'foundcss/foundation.min.css' %}" />
+
+<script src="{% static 'foundjs/modernizr.js' %}"></script>
+
+<nav class="top-bar" data-topbar role="navigation">
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+      <li><a href="{% url 'login' %}">Войти</a></li>
+    </ul>
+
+  </section>
+
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="{% url 'index' %}">Учебник Питона</a></h1>
+    </li>
+  </ul>
+</nav>
+
+<div class="row">
+  <div class="small-0 large-1 columns"></div>
+  <div class="small-12 large-10 columns">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <div class="small-0 large-1 columns"></div>
+</div>
+
+<script src="{% static 'foundjs/jquery.js' %}"></script>
+<script src="{% static 'foundjs/foundation.min.js' %}"></script>
+<script>
+    $(document).foundation();
+</script>
+
+{% block scripts %}
+{% endblock %}
