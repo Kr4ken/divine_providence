@@ -1,82 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+{% extends "./base.html" %}
 
-    <!-- Bootstrap -->
-    <link href="{% static 'bcss/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'input_tasks/style.css' %}" rel="stylesheet">
-</head>
-<body>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
 
-<div class="panel panel-success">    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <img src="http://placehold.it/150x50&text=Logo" alt="">
-                </a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Задача </h3>
+                </div>
+                <div class="panel-body">
 
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{task.name}}</h3>
+                    <div class="form-group">
+                        <label for="name">Задача:</label>
+                        <input type="text" class="form-control" id="name" value="{{task.name}}">
                     </div>
-                    <div class="panel-body">
 
-                        <div class="form-group">
-                            <label for="usr">Описание:</label>
-                            <input type="text" class="form-control" id="usr" value="{{task.description}}">
+                    <div class="form-group">
+                        <label for="description">Описание:</label>
+                        <input type="text" class="form-control" id="description" value="{{task.description}}">
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Особенности: </h3>
                         </div>
-
-
+                        <div class="panel-body">
+                            <h1>Тут будут особенности</h1>
+                            {{task.special}}
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="task_types">Тип задачи:</label>
+                        <select class="form-control" id="task_types">
+                            {% for task in task_types %}
+                            <option>{{task.description}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Тип:</label>
+                        <select class="form-control" id="type">
+                            {% for type in types %}
+                            <option>{{type.description}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Чеклист: </h3>
+                        </div>
+                        <div class="panel-body">
+                            <h1>Тут будет чеклист</h1>
+                            {{task.checklist}}
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>
-<!-- /.container -->
 
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{% static 'bjs/bootstrap.min.js' %}"></script>
-</body>
-</html>
+{% endblock %}
