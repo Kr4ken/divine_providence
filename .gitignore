@@ -1,5 +1,3 @@
 .idea**
 db.sqlite3
-**/migrations
-input_tasks/migrations/0001_initial.py
-input_tasks/migrations/__pycache__/0001_initial.cpython-36.pyc
+**/migrations/
