@@ -17,6 +17,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^input_tasks/',include('input_tasks.urls')),
+    url(r'^task/',include('task_dispatch.urls')),
     url(r'^admin/', admin.site.urls),
 ]
