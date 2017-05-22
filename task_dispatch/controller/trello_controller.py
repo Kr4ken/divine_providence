@@ -3,12 +3,9 @@ import random
 
 from datetime import datetime
 from trello import TrelloClient
-import os
-
-from django.conf import settings
 
 class trello_controller:
-	def __init__(self,config = os.path.join(settings.BASE_DIR,"config.json")):
+	def __init__(self,config = "config.json"):
 		conf = json.load(open(config, 'r'))
 		self.client = TrelloClient(
 			api_key=conf['trello']['api_key'],

@@ -3,6 +3,8 @@ from django.http import HttpResponse
 
 from .models import *
 from .controller.trello_controller import trello_controller
+from django.conf import settings
+import os
 
 # Create your views here.
 def input(request):
@@ -13,7 +15,7 @@ def input(request):
     return render(request,'task_dispatch/input.html',context)
 
 def complete(request,index = None):
-    tc = trello_controller()
+    tc = trello_controller(os.path.join(settings.BASE_DIR,"config.json"))
     new_item = None
     elems = tc.get_interest_list()
     if not index is None:
