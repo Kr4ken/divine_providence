@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import os
 
 from .models import *
 from .controller.trello_controller import trello_controller
 from django.conf import settings
-import os
+from django.views.generic import View,TemplateView
 
 # Create your views here.
 def input(request):
@@ -24,3 +25,17 @@ def complete(request,index = None):
     context ={ 'elems': elems,
                'new_item':new_item}
     return render(request,'task_dispatch/complete.html',context)
+
+
+class AngularApp(TemplateView):
+
+   template_name = 'task_dispatch/index.html'
+
+   def get_context_data(self, **kwargs):
+        context = super(AngularApp, self).get_context_data(**kwargs)
+        context['ANGULAR_URL'] = settings.ANGULAR_URL
+        return context
+
+class SampleView(View):
+    def get(self, request):
+        return render(request,"OK!")
