@@ -1,24 +1,31 @@
 {% load static %}
-
-
 <html>
   <head>
     <title>Angular 2 QuickStart</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="{% static 'bcss/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'task_dispatch/style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'bcss/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'task_dispatch/style.css' %}" rel="stylesheet">
+
     <base href="/">
     <!-- Polyfill(s) for older browsers -->
-    <script src="{{ ANGULAR_URL }}node_modules/core-js/client/shim.min.js"></script>
-    <script src="{{ ANGULAR_URL }}node_modules/zone.js/dist/zone.js"></script>
-    <script src="{{ ANGULAR_URL }}node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="{{ ANGULAR_URL }}node_modules/systemjs/dist/system.src.js"></script>
-    <script src="{{ ANGULAR_URL }}systemjs.config.js"></script>
+    <!--<script src="{{ ANGULAR_URL }}node_modules/core-js/client/shim.min.js"></script>-->
+    <!--<script src="{{ ANGULAR_URL }}node_modules/zone.js/dist/zone.js"></script>-->
+    <!--<script src="{{ ANGULAR_URL }}node_modules/reflect-metadata/Reflect.js"></script>-->
+    <!--<script src="{{ ANGULAR_URL }}node_modules/systemjs/dist/system.src.js"></script>-->
+    <!--<script src="{{ ANGULAR_URL }}systemjs.config.js"></script>-->
 
-    {# -------------------------------------- #}
-    {# Write your django logics anywhere here #}
-    {# -------------------------------------- #}
+    <script src="{% static 'angular/node_modules/core-js/client/shim.min.js' %}"></script>
+    <script src="{% static 'angular/node_modules/zone.js/dist/zone.js' %}"></script>
+    <script src="{% static 'angular/node_modules/reflect-metadata/Reflect.js' %}"></script>
+    <script src="{% static 'angular/node_modules/systemjs/dist/system.src.js' %}"></script>
+    <script src="{% static 'angular/systemjs.config.js' %}"></script>
 
+    <!--System.import('/ng/app/main').catch(function(err){-->
     <script>
       window.STATIC_URL = "{{ ANGULAR_URL }}";
       System.import('/ng/app/main').catch(function(err){
@@ -26,7 +33,16 @@
       });
     </script>
   </head>
+
   <body>
+
     <my-app>Loading...</my-app>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'bjs/bootstrap.min.js' %}"></script>
+
   </body>
+
 </html>

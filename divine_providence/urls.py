@@ -25,7 +25,8 @@ ngurls = [
 
 urlpatterns = [
     # url(r'^$',include('task_dispatch.urls')),
-    url(r'^task/',include('task_dispatch.urls')),
+    # url(r'^task/',include('task_dispatch.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^(?!ng/).*$', AngularApp.as_view(), name="angular_app"),
+    # url(r'^$', AngularApp.as_view(), name="angular_app"),
     ] + static(settings.ANGULAR_URL, document_root=settings.ANGULAR_ROOT)

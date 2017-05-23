@@ -121,14 +121,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+# Angular params
+ANGULAR_URL = '/ng/'
+ANGULAR_ROOT = os.path.join(BASE_DIR, 'angular_app/')
+
 STATICFILES_DIRS = [
 	('bcss', os.path.join(BASE_DIR, "static/bootstrap/css")), # Bootstrap CSS
 	('bjs', os.path.join(BASE_DIR, "static/bootstrap/js")), # Bootstrap js
 	('bfonts', os.path.join(BASE_DIR, "static/bootstrap/fonts")), # Bootstrap fonts
+    ('angular', ANGULAR_ROOT), # Bootstrap fonts
 ]
 
 
-# Angular params
-ANGULAR_URL = '/ng/'
-
-ANGULAR_ROOT = os.path.join(BASE_DIR, 'ngApp/')
