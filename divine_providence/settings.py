@@ -124,7 +124,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 # Angular params
 ANGULAR_URL = '/ng/'
-ANGULAR_ROOT = os.path.join(BASE_DIR, 'angular_app/')
+# ANGULAR_ROOT = os.path.join(BASE_DIR, 'angular_app/')
+ANGULAR_ROOT = os.path.join(BASE_DIR, 'angular/')
 
 STATICFILES_DIRS = [
 	('bcss', os.path.join(BASE_DIR, "static/bootstrap/css")), # Bootstrap CSS

@@ -1,7 +1,7 @@
 {% load static %}
 <html>
   <head>
-    <title>Angular 2 QuickStart</title>
+    <title>My control center</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -12,31 +12,24 @@
     <link href="{% static 'task_dispatch/style.css' %}" rel="stylesheet">
 
     <base href="/">
-    <!-- Polyfill(s) for older browsers -->
-    <!--<script src="{{ ANGULAR_URL }}node_modules/core-js/client/shim.min.js"></script>-->
-    <!--<script src="{{ ANGULAR_URL }}node_modules/zone.js/dist/zone.js"></script>-->
-    <!--<script src="{{ ANGULAR_URL }}node_modules/reflect-metadata/Reflect.js"></script>-->
-    <!--<script src="{{ ANGULAR_URL }}node_modules/systemjs/dist/system.src.js"></script>-->
-    <!--<script src="{{ ANGULAR_URL }}systemjs.config.js"></script>-->
 
     <script src="{% static 'angular/node_modules/core-js/client/shim.min.js' %}"></script>
     <script src="{% static 'angular/node_modules/zone.js/dist/zone.js' %}"></script>
-    <script src="{% static 'angular/node_modules/reflect-metadata/Reflect.js' %}"></script>
+    <!--<script src="{% static 'angular/node_modules/reflect-metadata/Reflect.js' %}"></script>-->
     <script src="{% static 'angular/node_modules/systemjs/dist/system.src.js' %}"></script>
     <script src="{% static 'angular/systemjs.config.js' %}"></script>
 
     <!--System.import('/ng/app/main').catch(function(err){-->
+    <!--System.import('main.js').catch(function(err){ console.error(err); });-->
     <script>
       window.STATIC_URL = "{{ ANGULAR_URL }}";
-      System.import('/ng/app/main').catch(function(err){
-          console.error(err);
-      });
+      System.import('/ng/app/main.js').catch(function(err){ console.error(err); });
     </script>
   </head>
 
   <body>
 
-    <my-app>Loading...</my-app>
+  <my-app><center><img src="{% static 'task_dispatch/loading.gif' %}" height="200" width="200" ></center></my-app>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

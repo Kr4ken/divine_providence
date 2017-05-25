@@ -36,6 +36,3 @@ class AngularApp(TemplateView):
         context['ANGULAR_URL'] = settings.ANGULAR_URL
         return context
 
-class SampleView(View):
-    def get(self, request):
-        return render(request,"OK!")

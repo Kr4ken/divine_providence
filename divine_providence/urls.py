@@ -15,18 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from task_dispatch.views import SampleView,AngularApp
+from task_dispatch.views import AngularApp
 from django.conf.urls.static import static
 from django.conf import settings
-
-ngurls = [
-    url(r'^$', SampleView.as_view(), name='sample'),
-]
 
 urlpatterns = [
     # url(r'^$',include('task_dispatch.urls')),
     # url(r'^task/',include('task_dispatch.urls')),
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
     url(r'^(?!ng/).*$', AngularApp.as_view(), name="angular_app"),
     # url(r'^$', AngularApp.as_view(), name="angular_app"),
     ] + static(settings.ANGULAR_URL, document_root=settings.ANGULAR_ROOT)
