@@ -1,26 +1,49 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
-from .models import *
-from .controller.trello_controller import trello_controller
-from django.conf import settings
 import os
 
-# Create your views here.
-def input(request):
-    current_task = Task.objects.get(pk=1)
-    context ={ 'task' : current_task,
-               'task_types':Task_type.objects.all(),
-               'types': Type.objects.all()}
-    return render(request,'task_dispatch/input.html',context)
+from django.conf import settings
+from django.views.generic import TemplateView
 
-def complete(request,index = None):
-    tc = trello_controller(os.path.join(settings.BASE_DIR,"config.json"))
-    new_item = None
-    elems = tc.get_interest_list()
-    if not index is None:
-        new_item = tc.get_new_item_interst_list(int(index))
+from .controller.trello.trello_controller import trello_controller
 
-    context ={ 'elems': elems,
-               'new_item':new_item}
-    return render(request,'task_dispatch/complete.html',context)
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from .controller.trello.interest import Interest
+from .serializers import InterestSerializer
+
+tc = trello_controller(os.path.join(settings.BASE_DIR,"config.json"))
+
+@csrf_exempt
+def getInterests(request):
+    if request.method == 'GET':
+        interests = tc.get_interest_list()
+        serializer = InterestSerializer(interests,many=True)
+        return JsonResponse(serializer.data,safe=False)
+
+@csrf_exempt
+def getInterest(request,key):
+    if request.method == 'GET':
+        interests = tc.get_interest_list()
+        serializer = InterestSerializer(interests,many=True)
+        return JsonResponse(serializer.data,safe=False)
+
+@csrf_exempt
+def completeInterest(request,key):
+    if request.method == 'DELETE':
+        interest = tc.complete_interest(key)
+        serializer = InterestSerializer(interest,many=False)
+        return JsonResponse(serializer.data,safe=False)
+    return HttpResponse(status=404)
+
+
+
+class AngularApp(TemplateView):
+
+   template_name = 'task_dispatch/index.html'
+
+   def get_context_data(self, **kwargs):
+        context = super(AngularApp, self).get_context_data(**kwargs)
+        context['ANGULAR_URL'] = settings.ANGULAR_URL
+        return context
+
