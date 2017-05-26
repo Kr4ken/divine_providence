@@ -1,23 +1,39 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Выполнить задачу</h3>
+        <h3 class="panel-title">Интересы</h3>
     </div>
-    <!--<div class="panel-body">-->
-        <!--<div class="list-group">-->
-            <!--<h1>Список: {{new_item.list_name}}</h1>-->
-            <!--<h2>Имя нового объекта: {{new_item.item_name}}</h2>-->
-        <!--</div>-->
-    <!--</div>-->
 
-<div class="panel-body">
-      <div class="row">
-      <div class="col-md-5">
-            Левая колонка со списком
-      </div>
-      <div class="col-md-7">
-            Правая колонка со инфой
+    <div *ngIf="selectedInterest; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock> 
+   
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="list-group">
+                        <a *ngFor="let interest of interestList" (click)="onSelect(interest)" [ngClass]="{'active':interest === selectedInterest}" class="list-group-item"> 
+                            {{interest.name}}
+                        </a>
+                    </div>
+                    <button type="button" class="btn btn-success" (click)="completeInterest()">Выполнить</button>
+                </div>
+                <div class="col-md-5">
+                    <div class="media">
+                      <div class="media-left">
+                          <img class="media-object" [src]="selectedInterest.img"  height="200" width="200">
+                      </div>
+                      <div class="media-body">
+                        <h2 class="media-heading">{{selectedInterest.name}}</h2>
+                        <h4>{{selectedInterest.value}}</h4>
+                      </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
 
+    </ng-template>
+     <ng-template #elseBlock>
+      <div class="panel-body">
+         <img src="static/task_dispatch/loading.gif"/>
+       </div>
+     </ng-template>
 </div>

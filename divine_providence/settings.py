@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,16 @@ STATICFILES_DIRS = [
 	('bcss', os.path.join(BASE_DIR, "static/bootstrap/css")), # Bootstrap CSS
 	('bjs', os.path.join(BASE_DIR, "static/bootstrap/js")), # Bootstrap js
 	('bfonts', os.path.join(BASE_DIR, "static/bootstrap/fonts")), # Bootstrap fonts
-    ('angular', ANGULAR_ROOT), # Bootstrap fonts
+    ('angular', ANGULAR_ROOT), #
 ]
 
 
+# Rest settings
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'PAGE_SIZE': 10
+}

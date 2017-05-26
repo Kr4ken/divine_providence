@@ -5,4 +5,4 @@ var Interest = (function () {
     return Interest;
 }());
 exports.Interest = Interest;
-//# sourceMappingURL=Interest.js.map
+//# sourceMappingURL=interest.js.map
