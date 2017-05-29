@@ -18,7 +18,6 @@ export class CompleteComponent{
   	// this.interestList = this.interestService.getInterestsTest();
   	this.interestService
   		.getInterests()
-   
   		.then(interests =>{this.interestList = interests; this.selectedInterest = this.interestList[0];});
   }
 

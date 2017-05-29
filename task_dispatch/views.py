@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.views.generic import TemplateView
 
-from .controller.trello.trello_controller import trello_controller
+from .controller.trello.trello_controller import TrelloController
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +12,7 @@ from rest_framework.parsers import JSONParser
 from .controller.trello.interest import Interest
 from .serializers import InterestSerializer
 
-tc = trello_controller(os.path.join(settings.BASE_DIR,"config.json"))
+tc = TrelloController(os.path.join(settings.BASE_DIR, "config.json"))
 
 @csrf_exempt
 def getInterests(request):
@@ -22,18 +22,23 @@ def getInterests(request):
         return JsonResponse(serializer.data,safe=False)
 
 @csrf_exempt
-def getInterest(request,key):
+def getInterest(request, key):
     if request.method == 'GET':
         interests = tc.get_interest_list()
-        serializer = InterestSerializer(interests,many=True)
-        return JsonResponse(serializer.data,safe=False)
+        serializer = InterestSerializer(interests, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
-def completeInterest(request,key):
+def completeInterest(request, key):
     if request.method == 'DELETE':
         interest = tc.complete_interest(key)
-        serializer = InterestSerializer(interest,many=False)
-        return JsonResponse(serializer.data,safe=False)
+        serializer = InterestSerializer(interest, many=False)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'GET':
+        interest = tc.get_interest(key)
+        serializer = InterestSerializer(interest, many=False)
+        return JsonResponse(serializer.data, safe=False)
+
     return HttpResponse(status=404)
 
 

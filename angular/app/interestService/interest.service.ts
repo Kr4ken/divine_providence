@@ -21,10 +21,18 @@ export class InterestService {
 
    }
 
+   getInterest(key: String):Promise<Interest>{
+    return this.http.get(this.interestUrl + key + "/")
+               .toPromise()
+               .then(response =>response.json() as Interest)
+               .catch(this.handleError);
+
+   }
+
   getInterests(): Promise<Interest[]> {
     return this.http.get(this.interestUrl)
                .toPromise()
-               .then(response =>response.json() as Interest[] )
+               .then(response => response.json() as Interest[])
                .catch(this.handleError);
    }
 

@@ -23,6 +23,12 @@ var InterestService = (function () {
             .then(function (response) { return response.json(); })
             .catch(this.handleError);
     };
+    InterestService.prototype.getInterest = function (key) {
+        return this.http.get(this.interestUrl + key + "/")
+            .toPromise()
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
     InterestService.prototype.getInterests = function () {
         return this.http.get(this.interestUrl)
             .toPromise()

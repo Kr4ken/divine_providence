@@ -1,13 +1,9 @@
-class Interest():
-    name=""
-    img=""
-    key=""
-    value=""
-
-    def __init__(self,name,img,key,value):
-        self.name = name
-        self.img = img
+class Interest:
+    def __init__(self, key, name, value="", img="",  description=""):
         self.key = key
+        self.name = name
         self.value = value
+        self.img = img
+        self.description = description
 
 

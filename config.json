@@ -11,6 +11,9 @@
     "log":"log.txt",
     "INUProjectCount":3,
     "NIUProjectCount":4,
-    "NINUProjectCount":5
+    "NINUProjectCount":5,
+    "intersest":{
+      "ignoredList":["Закончено","Отложено"]
+    }
   }
 }

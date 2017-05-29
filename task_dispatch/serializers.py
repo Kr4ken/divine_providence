@@ -9,16 +9,18 @@ class InterestSerializer(serializers.Serializer):
     img = serializers.CharField(required=False, allow_blank=True, max_length=100)
     name = serializers.CharField(required=False, allow_blank=True, max_length=100)
     value = serializers.CharField(required=False, allow_blank=True, max_length=100)
+    description = serializers.CharField(required=False, allow_blank=True, max_length=100)
 
     def create(self, validated_data):
         """
         Create and return a new `Snippet` instance, given the validated data.
         """
-        instance = Interest()
+        instance = Interest
         instance.key = validated_data.get('key',instance.key)
-        instance.img = validated_data.get('img',instance.key)
-        instance.name = validated_data.get('name',instance.key)
-        instance.value = validated_data.get('value',instance.key)
+        instance.img = validated_data.get('img',instance.img)
+        instance.name = validated_data.get('name',instance.name)
+        instance.value = validated_data.get('value',instance.value)
+        instance.description = validated_data.get('description',instance.description)
 
         return instance
 
@@ -27,7 +29,8 @@ class InterestSerializer(serializers.Serializer):
         Update and return an existing `Snippet` instance, given the validated data.
         """
         instance.key = validated_data.get('key',instance.key)
-        instance.img = validated_data.get('img',instance.key)
-        instance.name = validated_data.get('name',instance.key)
-        instance.value = validated_data.get('value',instance.key)
+        instance.img = validated_data.get('img',instance.img)
+        instance.name = validated_data.get('name',instance.name)
+        instance.value = validated_data.get('value',instance.value)
+        instance.description = validated_data.get('description',instance.description)
         return instance

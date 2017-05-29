@@ -1,6 +1,7 @@
 export class Interest {
 	key: String;
-	img: String;
+	img?: String;
 	name: String;
-	value: String;
+	value?: String;
+	description?: String;
 }
