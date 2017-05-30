@@ -29,7 +29,8 @@ from rest_framework import routers
 # ]
 
 urlpatterns = [
-    url(r'^rest/',include('task_dispatch.urls')),
-    url(r'^(?!(ng/|rest/)).*$', AngularApp.as_view(), name="angular_app"),
+    url(r'^admin/', admin.site.urls),
+    url(r'^rest/', include('task_dispatch.urls')),
+    url(r'^(?!(ng/|rest|admin/)).*$', AngularApp.as_view(), name="angular_app"),
     # url(r'^$', AngularApp.as_view(), name="angular_app"),
     ] + static(settings.ANGULAR_URL, document_root=settings.ANGULAR_ROOT)

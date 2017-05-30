@@ -41,6 +41,12 @@ def completeInterest(request, key):
 
     return HttpResponse(status=404)
 
+@csrf_exempt
+def sync_ids(request):
+	if request.method == 'POST':
+		return HttpResponse(status=200, content=tc.fill_all())
+		# return JsonResponse("{'message':'"+tc.fill_all()+"'}")
+
 
 
 class AngularApp(TemplateView):

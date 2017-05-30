@@ -8,9 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
+var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
 var complete_component_1 = require("./complete/complete.component");
+var control_component_1 = require("./control/control.component");
 var interest_service_1 = require("./interestService/interest.service");
+var Control_service_1 = require("./controlService/Control.service");
+var appRoutes = [
+    { path: 'interests', component: complete_component_1.CompleteComponent },
+    { path: 'control', component: control_component_1.ControlComponent },
+    { path: '',
+        redirectTo: '/interests',
+        pathMatch: 'full'
+    }
+];
 var AppModule = (function () {
     function AppModule() {
     }
@@ -20,14 +31,17 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [
             platform_browser_1.BrowserModule,
-            http_1.HttpModule
+            http_1.HttpModule,
+            router_1.RouterModule.forRoot(appRoutes)
         ],
         declarations: [
             app_component_1.AppComponent,
             complete_component_1.CompleteComponent,
+            control_component_1.ControlComponent
         ],
         providers: [
-            interest_service_1.InterestService
+            interest_service_1.InterestService,
+            Control_service_1.ControlService
         ],
         bootstrap: [app_component_1.AppComponent]
     })

@@ -19,7 +19,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
+<!--                     <li>
                         <a href="#"> Распределение</a>
                     </li>
                     <li>
@@ -27,6 +27,13 @@
                     </li>
                     <li>
                         <a href="#">Контроль</a>
+                    </li>
+ -->                   
+                    <li>
+                    <a routerLink="/interests" routerLinkActive="active">Выполнение</a>
+                    </li>
+                    <li>
+                    <a routerLink="/control" routerLinkActive="active">Контроль</a>
                     </li>
                 </ul>
             </div>
@@ -38,7 +45,8 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <complete><img src="static/task_dispatch/loading.gif"/></complete>
+            <!-- <complete><img src="static/task_dispatch/loading.gif"/></complete> -->
+            <router-outlet></router-outlet>
 
         </div>
     </div>

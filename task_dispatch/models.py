@@ -38,3 +38,35 @@ class Task(models.Model):
 	def __str__(self):
 		return self.name
 
+
+class IdObject(models.Model):
+	CARD_TYPE=0
+	LIST_TYPE=1
+	BOARD_TYPE=2
+	LABEL_TYPE=3
+	OBJECT_TYPES = (
+		(CARD_TYPE, 'Card'),
+		# ('Card', 0),
+		(LIST_TYPE, 'List'),
+		# ('List', 1),
+		(BOARD_TYPE, 'Board'),
+		# ('Board', 2),
+		(LABEL_TYPE, 'Label')
+		# ('Label', 3)
+	)
+	name = models.CharField(max_length=100,null=True)
+	key = models.CharField(max_length=30)
+	owner_key = models.CharField(max_length=30, default=None, null=True)
+	type = models.IntegerField(choices=OBJECT_TYPES)
+
+	def __str__(self):
+		msgType=''
+		if self.type==0:
+			msgType='Карточка'
+		elif self.type==1:
+			msgType='Список'
+		elif self.type==2:
+			msgType='Доска'
+		elif self.type==3:
+			msgType='Ярлык'
+		return msgType  +" : " +  self.name
