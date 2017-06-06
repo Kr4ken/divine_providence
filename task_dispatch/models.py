@@ -77,5 +77,5 @@ class Interest(models.Model):
 		img = models.CharField(max_length=200, null=True)
 		list_key = models.CharField(max_length=30, null=True)
 		description = models.CharField(max_length=300, null=True)
-		pos = models.IntegerField
+		ord_pos = models.IntegerField(null=True)
 

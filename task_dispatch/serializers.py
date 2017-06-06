@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .controller.trello.interest import Interest
+# from .controller.trello.interest import Interest
+from .models import Interest
 
 
 class InterestSerializer(serializers.Serializer):
@@ -8,8 +9,9 @@ class InterestSerializer(serializers.Serializer):
     key = serializers.CharField(required=False, allow_blank=True, max_length=100)
     img = serializers.CharField(required=False, allow_blank=True, max_length=100)
     name = serializers.CharField(required=False, allow_blank=True, max_length=100)
-    value = serializers.CharField(required=False, allow_blank=True, max_length=100)
+    list_key = serializers.CharField(required=False, allow_blank=True, max_length=100)
     description = serializers.CharField(required=False, allow_blank=True, max_length=100)
+    ord_pos = serializers.IntegerField(required=False)
 
     def create(self, validated_data):
         """
@@ -19,8 +21,9 @@ class InterestSerializer(serializers.Serializer):
         instance.key = validated_data.get('key',instance.key)
         instance.img = validated_data.get('img',instance.img)
         instance.name = validated_data.get('name',instance.name)
-        instance.value = validated_data.get('value',instance.value)
+        instance.list_key = validated_data.get('list_key',instance.list_key)
         instance.description = validated_data.get('description',instance.description)
+        instance.ord_pos = validated_data.get('ord_pos',instance.description)
 
         return instance
 
@@ -32,5 +35,7 @@ class InterestSerializer(serializers.Serializer):
         instance.img = validated_data.get('img',instance.img)
         instance.name = validated_data.get('name',instance.name)
         instance.value = validated_data.get('value',instance.value)
+        instance.list_key = validated_data.get('list_key',instance.list_key)
         instance.description = validated_data.get('description',instance.description)
+        instance.ord_pos = validated_data.get('ord_pos',instance.description)
         return instance

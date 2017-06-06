@@ -15,13 +15,15 @@ from .serializers import InterestSerializer
 
 # tc = TrelloController(os.path.join(settings.BASE_DIR, "config.json"))
 tw = TrelloWrapper()
-tw.fill_interests()
+# tw.fill_all()
+# tw.fill_interests()
 
 
 @csrf_exempt
 def getInterests(request):
     if request.method == 'GET':
-        interests = tc.get_interest_list()
+        # interests = tc.get_interest_list()
+        interests = tw.get_interests()
         serializer = InterestSerializer(interests,many=True)
         return JsonResponse(serializer.data,safe=False)
 
