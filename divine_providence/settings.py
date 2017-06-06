@@ -145,3 +145,5 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 10
 }
+
+CONFIG_PATH = os.path.join(BASE_DIR, "config.json")

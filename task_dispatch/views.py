@@ -4,6 +4,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 
 from .controller.trello.trello_controller import TrelloController
+from .controller.trello_wrapper import  TrelloWrapper
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +13,10 @@ from rest_framework.parsers import JSONParser
 from .controller.trello.interest import Interest
 from .serializers import InterestSerializer
 
-tc = TrelloController(os.path.join(settings.BASE_DIR, "config.json"))
+# tc = TrelloController(os.path.join(settings.BASE_DIR, "config.json"))
+tw = TrelloWrapper()
+tw.fill_interests()
+
 
 @csrf_exempt
 def getInterests(request):

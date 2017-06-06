@@ -70,3 +70,12 @@ class IdObject(models.Model):
 		elif self.type==3:
 			msgType='Ярлык'
 		return msgType  +" : " +  self.name
+
+class Interest(models.Model):
+		key = models.CharField(max_length=30)
+		name = models.CharField(max_length=100, null=True)
+		img = models.CharField(max_length=200, null=True)
+		list_key = models.CharField(max_length=30, null=True)
+		description = models.CharField(max_length=300, null=True)
+		pos = models.IntegerField
+
