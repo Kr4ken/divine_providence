@@ -37,9 +37,11 @@ def getInterest(request, key):
 @csrf_exempt
 def completeInterest(request, key):
     if request.method == 'DELETE':
-        interest = tc.complete_interest(key)
+        # interest = tc.complete_interest(key)
+        interest = tw.complete_interest(key)
         serializer = InterestSerializer(interest, many=False)
         return JsonResponse(serializer.data, safe=False)
+
     elif request.method == 'GET':
         interest = tc.get_interest(key)
         serializer = InterestSerializer(interest, many=False)
@@ -50,9 +52,13 @@ def completeInterest(request, key):
 @csrf_exempt
 def sync_ids(request):
 	if request.method == 'POST':
-		return HttpResponse(status=200, content=tc.fill_all())
+		return HttpResponse(status=200, content=tw.fill_all())
 		# return JsonResponse("{'message':'"+tc.fill_all()+"'}")
 
+@csrf_exempt
+def sync_interests(request):
+    if request.method == 'POST':
+        return HttpResponse(status=200, content=tw.fill_interests())
 
 
 class AngularApp(TemplateView):

@@ -18,28 +18,12 @@ export class ControlService {
                     // .catch(this.handleError)
   }
 
-  //  completeInterest(key: String):Promise<Interest>{
-  //   return this.http.delete(this.interestUrl + key + "/")
-  //              .toPromise()
-  //              .then(response =>response.json() as Interest)
-  //              .catch(this.handleError);
-
-  //  }
-
-  //  getInterest(key: String):Promise<Interest>{
-  //   return this.http.get(this.interestUrl + key + "/")
-  //              .toPromise()
-  //              .then(response =>response.json() as Interest)
-  //              .catch(this.handleError);
-
-  //  }
-
-  // getInterests(): Promise<Interest[]> {
-  //   return this.http.get(this.interestUrl)
-  //              .toPromise()
-  //              .then(response => response.json() as Interest[])
-  //              .catch(this.handleError);
-  //  }
+  syncInterestsIds():Promise<String>{
+    return this.http.post(this.controlUrl+"int/sync/",null)
+                    .toPromise()
+                    .then(response => response.text() as String)
+                    // .catch(this.handleError)
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

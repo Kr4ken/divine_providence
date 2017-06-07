@@ -10,6 +10,7 @@ class InterestSerializer(serializers.Serializer):
     img = serializers.CharField(required=False, allow_blank=True, max_length=100)
     name = serializers.CharField(required=False, allow_blank=True, max_length=100)
     list_key = serializers.CharField(required=False, allow_blank=True, max_length=100)
+    list_name = serializers.CharField(required=False, allow_blank=True, max_length=100)
     description = serializers.CharField(required=False, allow_blank=True, max_length=100)
     ord_pos = serializers.IntegerField(required=False)
 
@@ -22,6 +23,7 @@ class InterestSerializer(serializers.Serializer):
         instance.img = validated_data.get('img',instance.img)
         instance.name = validated_data.get('name',instance.name)
         instance.list_key = validated_data.get('list_key',instance.list_key)
+        instance.list_name = validated_data.get('list_name',instance.list_key)
         instance.description = validated_data.get('description',instance.description)
         instance.ord_pos = validated_data.get('ord_pos',instance.description)
 
@@ -36,6 +38,7 @@ class InterestSerializer(serializers.Serializer):
         instance.name = validated_data.get('name',instance.name)
         instance.value = validated_data.get('value',instance.value)
         instance.list_key = validated_data.get('list_key',instance.list_key)
+        instance.list_name = validated_data.get('list_name',instance.list_key)
         instance.description = validated_data.get('description',instance.description)
         instance.ord_pos = validated_data.get('ord_pos',instance.description)
         return instance

@@ -3,6 +3,7 @@ export class Interest {
 	img?: String;
 	name: String;
 	list_key?: String;
+	list_name?: String;
 	description?: String;
 	ord_pos:Number;
 }

@@ -23,24 +23,12 @@ var ControlService = (function () {
             .then(function (response) { return response.text(); });
         // .catch(this.handleError)
     };
-    //  completeInterest(key: String):Promise<Interest>{
-    //   return this.http.delete(this.interestUrl + key + "/")
-    //              .toPromise()
-    //              .then(response =>response.json() as Interest)
-    //              .catch(this.handleError);
-    //  }
-    //  getInterest(key: String):Promise<Interest>{
-    //   return this.http.get(this.interestUrl + key + "/")
-    //              .toPromise()
-    //              .then(response =>response.json() as Interest)
-    //              .catch(this.handleError);
-    //  }
-    // getInterests(): Promise<Interest[]> {
-    //   return this.http.get(this.interestUrl)
-    //              .toPromise()
-    //              .then(response => response.json() as Interest[])
-    //              .catch(this.handleError);
-    //  }
+    ControlService.prototype.syncInterestsIds = function () {
+        return this.http.post(this.controlUrl + "int/sync/", null)
+            .toPromise()
+            .then(function (response) { return response.text(); });
+        // .catch(this.handleError)
+    };
     ControlService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);

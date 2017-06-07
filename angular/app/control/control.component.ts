@@ -8,9 +8,15 @@ import { ControlService } from '../controlService/Control.service'
 })
 
 export class ControlComponent{
+
 	syncIdsStatus:String = 'Не выполнялась';
 	status:number = 0;
 	syncing:boolean = false;
+
+  syncInterestsIdsStatus:String = 'Не выполнялась';
+  statusInterests:number = 0;
+  syncingInterests:boolean = false;
+
   constructor(
     private controlService: ControlService) { }
 
@@ -30,6 +36,22 @@ export class ControlComponent{
   							})
   	}
 
+
+    SyncInterestsIds():void{
+      console.log('Start')
+      this.syncingInterests = true;
+      this.controlService.syncInterestsIds()
+                .then(status => {
+                  this.syncingInterests = false;
+                  this.syncInterestsIdsStatus = status;
+                  this.statusInterests=1;
+                })
+                .catch(err => {
+                  this.syncingInterests = false;
+                this.syncInterestsIdsStatus = err;
+                this.statusInterests=2;
+                })
+    }
 
 
 }

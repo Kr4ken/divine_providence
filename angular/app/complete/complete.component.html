@@ -11,10 +11,11 @@
                 <div class="col-md-4">
                     <div class="list-group">
                         <a *ngFor="let interest of interestList" (click)="onSelect(interest)" [ngClass]="{'active':interest === selectedInterest}" class="list-group-item"> 
-                            {{interest.name}}
+                            {{interest.list_name}}
                         </a>
                     </div>
                     <button type="button" class="btn btn-success btn-lg" (click)="completeInterest()">Выполнить</button>
+                    <button type="button" class="btn btn-danger btn-lg" (click)="completeInterest()">Отложить</button>
                 </div>
                 <div class="col-md-5">
                         <div class="media">
@@ -22,8 +23,8 @@
                               <img class="media-object" [src]="selectedInterest.img"  height="200" width="200">
                           </div>
                           <div class="media-body">
-                            <h2 class="media-heading">{{selectedInterest.name}}</h2>
-                            <h4>{{selectedInterest.value}}</h4>
+                            <h2 class="media-heading">{{selectedInterest.list_name}}</h2>
+                            <h4>{{selectedInterest.name}}</h4>
                             {{selectedInterest.description}}
                           </div>
                         </div>

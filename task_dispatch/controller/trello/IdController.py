@@ -36,7 +36,13 @@ class IdController:
 			return False
 		return id_object.key
 
-
+	@staticmethod
+	def get_list_id_on_board(list_name, board_name):
+		try:
+			id_object = IdObject.objects.get(name=list_name, type=IdObject.LIST_TYPE, owner_key=IdController.get_board_id(board_name))
+		except IdObject.DoesNotExist:
+			return False
+		return id_object.key
 
 	@staticmethod
 	def clear():

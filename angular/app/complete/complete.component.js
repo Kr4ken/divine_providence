@@ -33,7 +33,7 @@ var CompleteComponent = (function () {
     CompleteComponent.prototype.completeInterest = function () {
         var _this = this;
         this.interestService
-            .completeInterest(this.selectedInterest.key)
+            .completeInterest(this.selectedInterest.list_key)
             .then(function (interest) {
             _this.interestList[_this.findInterestIndex(_this.selectedInterest)] = interest;
             _this.selectedInterest = interest;

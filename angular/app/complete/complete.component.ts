@@ -32,7 +32,7 @@ export class CompleteComponent{
 
   completeInterest():void{
   	this.interestService
-  	.completeInterest(this.selectedInterest.key)	
+  	.completeInterest(this.selectedInterest.list_key)	
   	.then(interest => {
   		this.interestList[this.findInterestIndex(this.selectedInterest)] = interest;
   		this.selectedInterest = interest});
