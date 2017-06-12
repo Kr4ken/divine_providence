@@ -17,6 +17,11 @@ export class ControlComponent{
   statusInterests:number = 0;
   syncingInterests:boolean = false;
 
+
+  syncInputTasksStatus:String = 'Не выполнялась';
+  statusInputTasks:number = 0;
+  syncingInputTasks:boolean = false;
+
   constructor(
     private controlService: ControlService) { }
 
@@ -50,6 +55,22 @@ export class ControlComponent{
                   this.syncingInterests = false;
                 this.syncInterestsIdsStatus = err;
                 this.statusInterests=2;
+                })
+    }
+
+    SyncInputTasks():void{
+      console.log('Start')
+      this.syncingInputTasks = true;
+      this.controlService.syncInputTasks()
+                .then(status => {
+                  this.syncingInputTasks = false;
+                  this.syncInputTasksStatus = status;
+                  this.statusInputTasks=1;
+                })
+                .catch(err => {
+                  this.syncingInputTasks = false;
+                  this.syncInputTasksStatus = err;
+                  this.statusInputTasks=2;
                 })
     }
 

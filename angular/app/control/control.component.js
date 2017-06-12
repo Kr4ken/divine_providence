@@ -19,6 +19,9 @@ var ControlComponent = (function () {
         this.syncInterestsIdsStatus = 'Не выполнялась';
         this.statusInterests = 0;
         this.syncingInterests = false;
+        this.syncInputTasksStatus = 'Не выполнялась';
+        this.statusInputTasks = 0;
+        this.syncingInputTasks = false;
     }
     ControlComponent.prototype.SyncIds = function () {
         var _this = this;
@@ -50,6 +53,22 @@ var ControlComponent = (function () {
             _this.syncingInterests = false;
             _this.syncInterestsIdsStatus = err;
             _this.statusInterests = 2;
+        });
+    };
+    ControlComponent.prototype.SyncInputTasks = function () {
+        var _this = this;
+        console.log('Start');
+        this.syncingInputTasks = true;
+        this.controlService.syncInputTasks()
+            .then(function (status) {
+            _this.syncingInputTasks = false;
+            _this.syncInputTasksStatus = status;
+            _this.statusInputTasks = 1;
+        })
+            .catch(function (err) {
+            _this.syncingInputTasks = false;
+            _this.syncInputTasksStatus = err;
+            _this.statusInputTasks = 2;
         });
     };
     return ControlComponent;

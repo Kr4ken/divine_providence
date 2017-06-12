@@ -5,6 +5,7 @@ class Task_type(models.Model):
 	ident = models.CharField(max_length=20)
 	description = models.CharField(max_length=200)
 
+
 	def __str__(self):
 		return self.description
 
@@ -21,14 +22,15 @@ class Type(models.Model):
 		return self.description
 
 class Task(models.Model):
-	task_type = models.ForeignKey(Task_type)
-	ident = models.CharField(max_length=40)
-	urgency = models.ForeignKey(Urgency)
+	key = models.CharField(max_length=30)
+	list_key = models.CharField(max_length=30)
+	# task_type = models.ForeignKey(Task_type)
+	# urgency = models.ForeignKey(Urgency)
 	name = models.CharField(max_length=100)
 	description = models.CharField(max_length=2000)
 	special = models.CharField(max_length=300)
-	type = models.ForeignKey(Type)
-	due_date=models.DateField()
+	# type = models.ForeignKey(Type)
+	due_date=models.DateField(null=True)
 	checklist=models.CharField(max_length=200)
 	labels=models.CharField(max_length=200)
 	sub_task=models.CharField(max_length=40)

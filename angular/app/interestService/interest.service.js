@@ -11,39 +11,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
-var ControlService = (function () {
-    function ControlService(http) {
+var InterestService = (function () {
+    function InterestService(http) {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        this.controlUrl = '/rest/control/'; // URL to web api
+        this.interestUrl = '/rest/interests/'; // URL to web api
     }
-    ControlService.prototype.syncAllIds = function () {
-        return this.http.post(this.controlUrl + "id/sync/", null)
+    InterestService.prototype.completeInterest = function (key) {
+        return this.http.delete(this.interestUrl + key + "/")
             .toPromise()
-            .then(function (response) { return response.text(); });
-        // .catch(this.handleError)
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
     };
-    ControlService.prototype.syncInterestsIds = function () {
-        return this.http.post(this.controlUrl + "int/sync/", null)
+    InterestService.prototype.getInterest = function (key) {
+        return this.http.get(this.interestUrl + key + "/")
             .toPromise()
-            .then(function (response) { return response.text(); });
-        // .catch(this.handleError)
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
     };
-    ControlService.prototype.syncInputTasks = function () {
-        return this.http.post(this.controlUrl + "input/sync/", null)
+    InterestService.prototype.getInterests = function () {
+        return this.http.get(this.interestUrl)
             .toPromise()
-            .then(function (response) { return response.text(); });
-        // .catch(this.handleError)
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
     };
-    ControlService.prototype.handleError = function (error) {
+    InterestService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     };
-    return ControlService;
+    return InterestService;
 }());
-ControlService = __decorate([
+InterestService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])
-], ControlService);
-exports.ControlService = ControlService;
-//# sourceMappingURL=Control.service.js.map
+], InterestService);
+exports.InterestService = InterestService;
+//# sourceMappingURL=interest.service.js.map

@@ -60,6 +60,12 @@ def sync_interests(request):
     if request.method == 'POST':
         return HttpResponse(status=200, content=tw.fill_interests())
 
+@csrf_exempt
+def sync_input_tasks(request):
+    if request.method == 'POST':
+        return HttpResponse(status=200, content=tw.fill_input_tasks())
+
+
 
 class AngularApp(TemplateView):
 

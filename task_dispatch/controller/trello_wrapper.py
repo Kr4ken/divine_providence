@@ -1,7 +1,7 @@
 import json
 import random
 from trello import TrelloClient
-from ..models import Interest
+from ..models import Interest, Task
 from django.conf import settings
 from .trello.IdController import IdController
 
@@ -35,6 +35,7 @@ class TrelloWrapper:
 					interest.save()
 					counter= counter + 1
 				print(l.name + ' list ended')
+		return 'All OK'
 
 	def fill_all(self, add_cards=False):
 		print('start filling')
@@ -92,5 +93,66 @@ class TrelloWrapper:
 				client.get_card(item.key).set_pos('top')
 				interest = item
 		return interest
+
+	def fill_input_tasks(self):
+		Task.objects.all().delete()
+		print('Start fill input tasks')
+		client = TrelloClient(
+			api_key=self.conf['trello']['api_key'],
+			token=self.conf['trello']['token'])
+		print('connected')
+		board_id = IdController.get_board_id('Прогресс')
+		list_id = IdController.get_list_id_on_board('Входящие','Прогресс')
+		board = client.get_board(board_id=board_id)
+		list = board.get_list(list_id)
+		for card in list.list_cards():
+			print('Load card ' + card.name)
+			#Load special and description
+			description = card.description
+			special = ''
+			special_start = '[special]('
+			special_end = ')'
+			if description.find(special_start) != -1:
+				special = description[description.find(special_start) + len(special_start):description.find(special_end) - len(special_end) + 1]
+				description = description[:description.find(special_start)]
+
+			checkList =[]
+			sub_task=''
+			labels=[]
+			card.fetch_checklists()
+
+			#Load checklists
+			if (len(card.checklists) > 0):
+				for item in card.checklists[0].items:
+					ch = ''
+					if item['checked']:
+						ch = ' +'
+					checkList.append(item['name'] + ch)
+					if (sub_task == '' and not item['checked']):
+						sub_task = item['name']
+				checkList.insert(0, card.checklists[0].name)
+			# Если есть лейблы грузим их
+			if (card.list_labels):
+				labels = [x.name for x in card.list_labels]
+
+			task = Task(key=card.id,
+			            list_key=list_id,
+			            name=card.name,
+			            description=description,
+			            special=special,
+			            # due_date=card.due_date,
+			            labels=labels,
+			            checklist=checkList,
+			            sub_task=sub_task
+			            )
+			task.save()
+			print('card saved')
+		return 'All OK'
+
+
+
+
+
+
 
 
