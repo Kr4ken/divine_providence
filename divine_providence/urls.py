@@ -15,8 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from task_dispatch.views import AngularApp
+from django.conf.urls.static import static
+from django.conf import settings
+# QuickStart
+from django.conf.urls import url, include
+from rest_framework import routers
+
+
+# urlpatterns = [
+#     url(r'^', include(router.urls)),
+#     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+# ]
 
 urlpatterns = [
-    url(r'^input_tasks/',include('input_tasks.urls')),
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^rest/', include('task_dispatch.urls')),
+    url(r'^(?!(ng/|rest|admin/)).*$', AngularApp.as_view(), name="angular_app"),
+    # url(r'^$', AngularApp.as_view(), name="angular_app"),
+    ] + static(settings.ANGULAR_URL, document_root=settings.ANGULAR_ROOT)

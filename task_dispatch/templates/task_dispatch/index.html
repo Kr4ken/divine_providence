@@ -1,0 +1,41 @@
+{% load static %}
+<html>
+  <head>
+    <title>My control center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="{% static 'bcss/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'task_dispatch/style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'bcss/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'task_dispatch/style.css' %}" rel="stylesheet">
+
+    <base href="/">
+
+    <script src="{% static 'angular/node_modules/core-js/client/shim.min.js' %}"></script>
+    <script src="{% static 'angular/node_modules/zone.js/dist/zone.js' %}"></script>
+    <!--<script src="{% static 'angular/node_modules/reflect-metadata/Reflect.js' %}"></script>-->
+    <script src="{% static 'angular/node_modules/systemjs/dist/system.src.js' %}"></script>
+    <script src="{% static 'angular/systemjs.config.js' %}"></script>
+
+    <!--System.import('/ng/app/main').catch(function(err){-->
+    <!--System.import('main.js').catch(function(err){ console.error(err); });-->
+    <script>
+      window.STATIC_URL = "{{ ANGULAR_URL }}";
+      System.import('/ng/app/main.js').catch(function(err){ console.error(err); });
+    </script>
+  </head>
+
+  <body>
+{% csrf_token %}
+  <my-app><center><img src="{% static 'task_dispatch/loading.gif' %}" height="200" width="200" ></center></my-app>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'bjs/bootstrap.min.js' %}"></script>
+
+  </body>
+
+</html>

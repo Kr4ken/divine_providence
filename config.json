@@ -1,0 +1,19 @@
+{
+  "trello":{
+    "api_key":"a31bb57aac7aba739505bc9975b897dd",
+    "token":"0d98e7f23ebcefeda8a14f807def592846f9c7780872800f2d29f76e3394f684"
+  },
+  "habatica":{
+    "api_key":"5ef62bde-14d4-4e12-adc2-8523bf042d3c",
+    "token":"708664ab-52d0-4176-b3fb-65bce9b21cf1"
+  },
+  "app":{
+    "log":"log.txt",
+    "INUProjectCount":3,
+    "NIUProjectCount":4,
+    "NINUProjectCount":5,
+    "intersest":{
+      "ignoredList":["Закончено","Отложено"]
+    }
+  }
+}
