@@ -6,13 +6,17 @@ import { RouterModule, Routes } from '@angular/router'
 import { AppComponent }  from './app.component';
 import { CompleteComponent }  from './complete/complete.component';
 import { ControlComponent }  from './control/control.component';
+import { InputTaskComponent }  from './inputTask/inputTask.component';
 
 import {InterestService} from './interestService/interest.service';
 import {ControlService} from './controlService/Control.service';
+import {TaskService} from './taskService/task.service'
+
 
 const appRoutes: Routes = [
   { path: 'interests', component: CompleteComponent},
   { path: 'control', component: ControlComponent},
+  { path: 'tasks', component: InputTaskComponent },
   { path: '',
     redirectTo: '/interests',
     pathMatch: 'full'
@@ -29,11 +33,13 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     CompleteComponent,
-    ControlComponent
+    ControlComponent,
+    InputTaskComponent
    ],
   providers: [
   	InterestService,
-    ControlService
+    ControlService,
+    TaskService
     ],
   bootstrap:    [ AppComponent ]
 })

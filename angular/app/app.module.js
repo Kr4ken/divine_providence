@@ -12,11 +12,14 @@ var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
 var complete_component_1 = require("./complete/complete.component");
 var control_component_1 = require("./control/control.component");
+var inputTask_component_1 = require("./inputTask/inputTask.component");
 var interest_service_1 = require("./interestService/interest.service");
 var Control_service_1 = require("./controlService/Control.service");
+var task_service_1 = require("./taskService/task.service");
 var appRoutes = [
     { path: 'interests', component: complete_component_1.CompleteComponent },
     { path: 'control', component: control_component_1.ControlComponent },
+    { path: 'tasks', component: inputTask_component_1.InputTaskComponent },
     { path: '',
         redirectTo: '/interests',
         pathMatch: 'full'
@@ -37,11 +40,13 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             complete_component_1.CompleteComponent,
-            control_component_1.ControlComponent
+            control_component_1.ControlComponent,
+            inputTask_component_1.InputTaskComponent
         ],
         providers: [
             interest_service_1.InterestService,
-            Control_service_1.ControlService
+            Control_service_1.ControlService,
+            task_service_1.TaskService
         ],
         bootstrap: [app_component_1.AppComponent]
     })
