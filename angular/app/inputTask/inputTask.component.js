@@ -10,10 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var task_service_1 = require("../taskService/task.service");
+var interest_service_1 = require("../interestService/interest.service");
 var InputTaskComponent = (function () {
-    function InputTaskComponent(inputTaskService) {
+    function InputTaskComponent(inputTaskService, interestService) {
         this.inputTaskService = inputTaskService;
+        this.interestService = interestService;
         this.inputTaskList = [];
+        this.interestList = [];
+        this.counter = 0;
+        this.important = [
+            new selectItem('N', 'Не важно'),
+            new selectItem('I', 'Важно'),
+        ];
+        this.urgency = [
+            new selectItem('N', 'Не срочно'),
+            new selectItem('U', 'Срочно'),
+        ];
     }
     InputTaskComponent.prototype.getInputTasks = function () {
         var _this = this;
@@ -23,9 +35,24 @@ var InputTaskComponent = (function () {
             _this.inputTaskList = tasks;
             _this.selectedTask = tasks[0];
         });
+        this.interestService
+            .getInterests()
+            .then(function (interests) {
+            _this.interestList = interests;
+        });
     };
     InputTaskComponent.prototype.ngOnInit = function () {
         this.getInputTasks();
+    };
+    InputTaskComponent.prototype.saveTask = function () {
+        this.selectedTask.labels = this.urg.concat(this.imp);
+        if (this.inputTaskList.length > 1) {
+            this.inputTaskList.splice(0, 1);
+            this.selectedTask = this.inputTaskList[0];
+        }
+        else {
+            console.log('Нет элементов');
+        }
     };
     return InputTaskComponent;
 }());
@@ -34,7 +61,17 @@ InputTaskComponent = __decorate([
         selector: 'inputTask',
         templateUrl: 'ng/app/inputTask/inputTask.component.html'
     }),
-    __metadata("design:paramtypes", [task_service_1.TaskService])
+    __metadata("design:paramtypes", [task_service_1.TaskService,
+        interest_service_1.InterestService])
 ], InputTaskComponent);
 exports.InputTaskComponent = InputTaskComponent;
+var selectItem = (function () {
+    function selectItem(value, name) {
+        this.name = name;
+        this.value = value;
+    }
+    return selectItem;
+}());
+exports.selectItem = selectItem;
+;
 //# sourceMappingURL=inputTask.component.js.map

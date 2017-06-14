@@ -9,6 +9,7 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
 var router_1 = require("@angular/router");
+var forms_1 = require("@angular/forms");
 var app_component_1 = require("./app.component");
 var complete_component_1 = require("./complete/complete.component");
 var control_component_1 = require("./control/control.component");
@@ -35,7 +36,8 @@ AppModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             http_1.HttpModule,
-            router_1.RouterModule.forRoot(appRoutes)
+            router_1.RouterModule.forRoot(appRoutes),
+            forms_1.FormsModule
         ],
         declarations: [
             app_component_1.AppComponent,

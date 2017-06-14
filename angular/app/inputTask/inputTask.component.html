@@ -1,20 +1,85 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <!-- <h3 class="panel-title">{{selectedTask.name}}</h3> -->
-        <h3 class="panel-title">Входящие задачи</h3>
-    </div>
 
     <div *ngIf="selectedTask; then thenBlock else elseBlock"></div>
     <ng-template #thenBlock> 
+    <div class="panel-heading">
+        <h3 class="panel-title">{{selectedTask.name}}</h3>
+        <!-- <h3 class="panel-title">Входящие задачи</h3> -->
+    </div>
+
    
         <div class="panel-body">
-            {{selectedTask.key}}
-            {{selectedTask.name}}
-            {{selectedTask.description}}
-            {{selectedTask.checklist}}
-            {{selectedTask.duration}}
-            {{selectedTask.labels}}
-        	
+
+        <div class="media">
+          <div class="media-left">
+              <img class="media-object" [src]="selectedTask.image"  height="200" width="200">
+          </div>
+            <div class="media-body">
+                <!-- Название -->
+                <div class="form-group">
+                  <label for="name">Название:</label>
+                  <input [(ngModel)]="selectedTask.name" type="text" class="form-control" id="name" >
+                </div>
+
+                <!-- Картинка -->
+                <div class="form-group">
+                  <label for="image">Картинка:</label>
+                  <input [(ngModel)]="selectedTask.image" type="text" class="form-control" id="image" >
+                </div>
+              </div>
+        </div>
+
+            <!-- Описание -->
+            <div class="form-group">
+              <label for="description">Описание:</label>
+              <textarea [(ngModel)]="selectedTask.description" class="form-control" rows="5" id="description"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Важность</label>
+              <select [(ngModel)]="imp" class="col-xs-5 form-control">
+                    <option *ngFor="let c of important" [ngValue]="c.value">{{c.name}}</option>
+              </select>
+            </div>
+
+
+
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Срочность</label>
+              <select [(ngModel)]="urg" class="col-xs-5 form-control">
+                    <option *ngFor="let c of urgency" [ngValue]="c.value">{{c.name}}</option>
+              </select>
+            </div>
+
+
+            <div class="row"> 
+              <br>
+              <!-- Ярлыки -->
+              {{selectedTask.key}}
+              {{selectedTask.name}}
+              {{selectedTask.description}}
+              {{selectedTask.checklist}}
+              {{selectedTask.duration}}
+              {{selectedTask.labels}}
+              {{imp + urg}}
+              <br>
+            </div>
+
+
+          <div class="row"> 
+            <div class="input-group-btn">
+            <button type="button" class="btn btn-success btn-lg" (click)="saveTask()">Сохранить</button>
+            <button type="button" class="btn btn-danger btn-lg" (click)="completeInterest()">Удалить</button>
+              <button type="button" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown">
+                Интересы <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                  <li *ngFor="let i of interestList">
+                     <a>{{i.list_name}}</a>
+                  </li>
+                </ul>
+            </div>
+          </div>
+ 
         </div>
 
     </ng-template>
