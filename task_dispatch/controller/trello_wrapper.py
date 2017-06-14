@@ -102,7 +102,7 @@ class TrelloWrapper:
 			token=self.conf['trello']['token'])
 		print('connected')
 		board_id = IdController.get_board_id('Прогресс')
-		list_id = IdController.get_list_id_on_board('Входящие','Прогресс')
+		list_id = IdController.get_list_id_on_board('Входящие', 'Прогресс')
 		board = client.get_board(board_id=board_id)
 		list = board.get_list(list_id)
 		for card in list.list_cards():
@@ -115,6 +115,15 @@ class TrelloWrapper:
 			if description.find(special_start) != -1:
 				special = description[description.find(special_start) + len(special_start):description.find(special_end) - len(special_end) + 1]
 				description = description[:description.find(special_start)]
+
+			#Load duration
+			name = card.name
+			duration = 0
+			duration_start = '['
+			duration_end = ']'
+			if name.find(duration_start) != -1:
+				duration = name[name.find(duration_start) + len(duration_start):name.find(duration_end) - len(duration_end) + 1]
+				name = name[:name.find(duration_start)]
 
 			checkList =[]
 			sub_task=''
@@ -134,25 +143,33 @@ class TrelloWrapper:
 			# Если есть лейблы грузим их
 			if (card.list_labels):
 				labels = [x.name for x in card.list_labels]
-
+			# Load image
+			card.fetch_attachments(True)
+			image = card.get_attachments()[0].url if len(card.get_attachments())>0 else ''
 			task = Task(key=card.id,
-			            list_key=list_id,
-			            name=card.name,
+			            name=name,
 			            description=description,
-			            special=special,
-			            # due_date=card.due_date,
-			            labels=labels,
+			            duration=duration,
+			            list_key=list_id,
 			            checklist=checkList,
-			            sub_task=sub_task
+			            # due_date=card.due_date,
+			            labels='NN',
+			            special=special,
+			            image=image
 			            )
 			task.save()
 			print('card saved')
 		return 'All OK'
 
+	def get_input_tasks(self):
+		list_id = IdController.get_list_id_on_board('Входящие', 'Прогресс')
+		return Task.objects.filter(list_key=list_id)
 
-
-
-
-
-
+	def create_hook(self):
+		print('start creating trello hook')
+		client = TrelloClient(
+			api_key=self.conf['trello']['api_key'],
+			token=self.conf['trello']['token'])
+		client.create_hook('http://85.143.212.176/hook/trello','57e04a0fda82f763f66385a1')
+		print('Done')
 

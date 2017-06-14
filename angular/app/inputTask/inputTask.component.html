@@ -1,20 +1,26 @@
-<h1>Input task component</h1>
 <div class="panel panel-default">
     <div class="panel-heading">
+        <!-- <h3 class="panel-title">{{selectedTask.name}}</h3> -->
         <h3 class="panel-title">Входящие задачи</h3>
     </div>
 
-<!--     <div *ngIf="selectedInterest; then thenBlock else elseBlock"></div>
+    <div *ngIf="selectedTask; then thenBlock else elseBlock"></div>
     <ng-template #thenBlock> 
- -->   
+   
         <div class="panel-body">
+            {{selectedTask.key}}
+            {{selectedTask.name}}
+            {{selectedTask.description}}
+            {{selectedTask.checklist}}
+            {{selectedTask.duration}}
+            {{selectedTask.labels}}
         	
         </div>
 
-<!--     </ng-template>
+    </ng-template>
      <ng-template #elseBlock>
       <div class="panel-body">
          <img src="static/task_dispatch/loading.gif"/>
        </div>
      </ng-template>
- --></div>
+</div>

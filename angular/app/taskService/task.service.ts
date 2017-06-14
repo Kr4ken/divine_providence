@@ -9,8 +9,14 @@ import { Task } from './task';
 export class TaskService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private interestUrl = '/rest/tasks/';  // URL to web api
+  private taskUrl = '/rest/tasks/';  // URL to web api
 
   constructor(private http: Http) { }
+
+  getInputTasks(): Promise<Task[]> {
+    return this.http.get(this.taskUrl + 'input/')
+               .toPromise()
+               .then(response => response.json() as Task[])
+   }
 
 }

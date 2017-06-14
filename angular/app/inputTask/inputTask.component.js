@@ -13,7 +13,20 @@ var task_service_1 = require("../taskService/task.service");
 var InputTaskComponent = (function () {
     function InputTaskComponent(inputTaskService) {
         this.inputTaskService = inputTaskService;
+        this.inputTaskList = [];
     }
+    InputTaskComponent.prototype.getInputTasks = function () {
+        var _this = this;
+        this.inputTaskService
+            .getInputTasks()
+            .then(function (tasks) {
+            _this.inputTaskList = tasks;
+            _this.selectedTask = tasks[0];
+        });
+    };
+    InputTaskComponent.prototype.ngOnInit = function () {
+        this.getInputTasks();
+    };
     return InputTaskComponent;
 }());
 InputTaskComponent = __decorate([

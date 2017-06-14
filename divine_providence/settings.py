@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-	'task_dispatch.apps.InputTasksConfig',
+    'task_dispatch.apps.InputTasksConfig',
+    'hooks.apps.HooksConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

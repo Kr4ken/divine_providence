@@ -15,8 +15,13 @@ var TaskService = (function () {
     function TaskService(http) {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        this.interestUrl = '/rest/tasks/'; // URL to web api
+        this.taskUrl = '/rest/tasks/'; // URL to web api
     }
+    TaskService.prototype.getInputTasks = function () {
+        return this.http.get(this.taskUrl + 'input/')
+            .toPromise()
+            .then(function (response) { return response.json(); });
+    };
     return TaskService;
 }());
 TaskService = __decorate([

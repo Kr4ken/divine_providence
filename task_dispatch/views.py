@@ -3,20 +3,20 @@ import os
 from django.conf import settings
 from django.views.generic import TemplateView
 
-from .controller.trello.trello_controller import TrelloController
-from .controller.trello_wrapper import  TrelloWrapper
+from .controller.trello_wrapper import TrelloWrapper
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from .controller.trello.interest import Interest
-from .serializers import InterestSerializer
+from .serializers import InterestSerializer, TaskSerializer
 
-# tc = TrelloController(os.path.join(settings.BASE_DIR, "config.json"))
 tw = TrelloWrapper()
-# tw.fill_all()
-# tw.fill_interests()
+
+@csrf_exempt
+def getInputTasks(request):
+    if request.method == 'GET':
+        tasks = tw.get_input_tasks()
+        serializer = TaskSerializer(tasks,many=True)
+        return JsonResponse(serializer.data,safe=False)
 
 
 @csrf_exempt
