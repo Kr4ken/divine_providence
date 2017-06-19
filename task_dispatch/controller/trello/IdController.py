@@ -15,6 +15,11 @@ class IdController:
 			id_object.save()
 
 	@staticmethod
+	def fill_label(label):
+		id_object = IdObject(name=label['name'],key=label['key'],owner_key=label['owner_key'],type=IdObject.LABEL_TYPE)
+		id_object.save()
+
+	@staticmethod
 	def fill_cards(card_list):
 		for card in card_list:
 			id_object = IdObject(name=card['name'], key=card['key'], owner_key=card['owner_key'], type=IdObject.CARD_TYPE)
@@ -40,6 +45,14 @@ class IdController:
 	def get_list_id_on_board(list_name, board_name):
 		try:
 			id_object = IdObject.objects.get(name=list_name, type=IdObject.LIST_TYPE, owner_key=IdController.get_board_id(board_name))
+		except IdObject.DoesNotExist:
+			return False
+		return id_object.key
+
+	@staticmethod
+	def get_label_id_on_board(label_name, board_name):
+		try:
+			id_object = IdObject.objects.get(name=label_name, type=IdObject.LABEL_TYPE, owner_key=IdController.get_board_id(board_name))
 		except IdObject.DoesNotExist:
 			return False
 		return id_object.key

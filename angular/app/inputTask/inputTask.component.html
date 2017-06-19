@@ -50,27 +50,12 @@
                     <option *ngFor="let c of urgency" [ngValue]="c.value">{{c.name}}</option>
               </select>
             </div>
-
-
-            <div class="row"> 
-              <br>
-              <!-- Ярлыки -->
-              {{selectedTask.key}}
-              {{selectedTask.name}}
-              {{selectedTask.description}}
-              {{selectedTask.checklist}}
-              {{selectedTask.duration}}
-              {{selectedTask.labels}}
-              {{imp + urg}}
-              <br>
-            </div>
-
-
           <div class="row"> 
+          <!-- <div class="form-group"> -->
             <div class="input-group-btn">
             <button type="button" class="btn btn-success btn-lg" (click)="saveTask()">Сохранить</button>
-            <button type="button" class="btn btn-danger btn-lg" (click)="completeInterest()">Удалить</button>
-              <button type="button" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown">
+            <button type="button" class="btn btn-danger btn-lg" (click)="deleteTask()">Удалить</button>
+            <button type="button" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown">
                 Интересы <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                   <li *ngFor="let i of interestList">

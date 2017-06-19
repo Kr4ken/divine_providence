@@ -44,8 +44,14 @@ var InputTaskComponent = (function () {
     InputTaskComponent.prototype.ngOnInit = function () {
         this.getInputTasks();
     };
+    InputTaskComponent.prototype.deleteTask = function () {
+        this.inputTaskService.deleteTask(this.selectedTask)
+            .then(function (Response) { return console.log(Response); });
+    };
     InputTaskComponent.prototype.saveTask = function () {
-        this.selectedTask.labels = this.urg.concat(this.imp);
+        this.selectedTask.labels = this.urg.concat(this.imp.toString());
+        this.inputTaskService.saveInputTask(this.selectedTask)
+            .then(function (resp) { return console.log(resp.toString()); });
         if (this.inputTaskList.length > 1) {
             this.inputTaskList.splice(0, 1);
             this.selectedTask = this.inputTaskList[0];

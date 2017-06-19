@@ -9,14 +9,46 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import InterestSerializer, TaskSerializer
 
+from django.utils.six import BytesIO
+from rest_framework.parsers import JSONParser
+
+from .models import Task
+
 tw = TrelloWrapper()
 
 @csrf_exempt
-def getInputTasks(request):
+def inputTasks(request, key):
     if request.method == 'GET':
         tasks = tw.get_input_tasks()
         serializer = TaskSerializer(tasks,many=True)
         return JsonResponse(serializer.data,safe=False)
+    if request.method == 'DELETE':
+        tw.delete_task(key)
+        return HttpResponse(status=200, content='Ok')
+    if request.method == 'POST':
+        body = ''  # b'' for consistency on Python 3.0
+        try:
+            length = int(request.environ.get('CONTENT_LENGTH', '0'))
+        except ValueError:
+            length = 0
+        if length != 0:
+            body = request.environ['wsgi.input'].read(length)
+        stream = BytesIO(body)
+        data = JSONParser().parse(stream)
+        if key is not None:
+            serializer = TaskSerializer(instance=Task.objects.get(key=key),data=data)
+        else:
+            serializer = TaskSerializer(data=data)
+
+        if serializer.is_valid(True):
+            task = serializer.save()
+            tw.update_input_task(task)
+            return HttpResponse(status=200, content='Ok')
+        else:
+            return HttpResponse(status=200, content='Fail')
+
+
+
 
 
 @csrf_exempt

@@ -55,10 +55,17 @@ export class InputTaskComponent{
 	  	this.getInputTasks();
 	  }
 
+	  deleteTask():void{
+	  	this.inputTaskService.deleteTask(this.selectedTask)
+	  	.then(Response => console.log(Response) )
+
+	  }
+
 
 	  saveTask():void {
-
-	  	this.selectedTask.labels=this.urg.concat(this.imp);
+	  	this.selectedTask.labels=this.urg.concat(this.imp.toString());
+	  	this.inputTaskService.saveInputTask(this.selectedTask)
+	  	.then(resp => console.log(resp.toString()));
 	  	if(this.inputTaskList.length > 1){
 		  	this.inputTaskList.splice(0,1);
 		  	this.selectedTask = this.inputTaskList[0];

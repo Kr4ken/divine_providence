@@ -50,7 +50,7 @@ class TrelloWrapper:
 			b['name'] = board.name
 			b['key'] = board.id
 			board_list.append(b)
-			print('board_added')
+			print('board_added'+board.name)
 			for list in board.list_lists():
 				card_list=[]
 				l={}
@@ -58,7 +58,7 @@ class TrelloWrapper:
 				l['key'] = list.id
 				l['owner_key'] = board.id
 				list_list.append(l)
-				print('list_added')
+				print('list_added' + list.name)
 				if add_cards:
 					for card in list.list_cards():
 						c={}
@@ -68,6 +68,9 @@ class TrelloWrapper:
 						card_list.append(c)
 						print('card added')
 					IdController.fill_cards(card_list)
+			for label in board.get_labels():
+					print('label_added:' + label.name)
+					IdController.fill_label({'name': label.name, 'key': label.id, 'owner_key': board.id})
 			IdController.fill_lists(list_list)
 		IdController.fill_boards(board_list)
 		return 'All OK'
@@ -164,6 +167,46 @@ class TrelloWrapper:
 	def get_input_tasks(self):
 		list_id = IdController.get_list_id_on_board('Входящие', 'Прогресс')
 		return Task.objects.filter(list_key=list_id)
+
+	def update_input_task(self, task):
+		client = TrelloClient(
+			api_key=self.conf['trello']['api_key'],
+			token=self.conf['trello']['token'])
+		print('Connected')
+		ur_label = client.get_label(IdController.get_label_id_on_board('Срочные цели','Прогресс'), IdController.get_board_id('Прогресс'))
+		nur_label = client.get_label(IdController.get_label_id_on_board('Не срочные цели','Прогресс'), IdController.get_board_id('Прогресс'))
+		card = client.get_card(task.key)
+		if task.labels == 'UI':
+			card.add_label(ur_label)
+			card.change_list(IdController.get_list_id_on_board('Распределить', 'Прогресс'))
+		elif task.labels == 'UN':
+			card.add_label(ur_label)
+			card.change_board(IdController.get_board_id('Неважное'), IdController.get_list_id_on_board('Неважное', 'Срочное'))
+		elif task.labels == 'NI':
+			card.add_label(nur_label)
+			card.change_board(IdController.get_board_id('Цели'), IdController.get_list_id_on_board('Цели', 'Новые'))
+		elif task.labels == 'NN':
+			card.add_label(nur_label)
+			card.change_board(IdController.get_board_id('Неважное'), IdController.get_list_id_on_board('Неважное', 'Несрочное'))
+		if task.image is not None:
+			card.attach(url=task.image)
+		if task.description is not None:
+			card.set_description(task.description)
+		print('Task ' + task.name + ' set labels ' + task.labels)
+		task.save()
+		return 'All OK'
+
+	def delete_task(self, key):
+		client = TrelloClient(
+			api_key=self.conf['trello']['api_key'],
+			token=self.conf['trello']['token'])
+		print('Connected')
+		card = client.get_card(key)
+		print('Delete task ' + card.name)
+		card.delete()
+		Task.objects.get(key=key).delete()
+
+
 
 	def create_hook(self):
 		print('start creating trello hook')

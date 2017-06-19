@@ -19,4 +19,16 @@ export class TaskService {
                .then(response => response.json() as Task[])
    }
 
+   saveInputTask(task:Task):Promise<String>{
+   	return this.http.post(this.taskUrl + 'input/' + task.key + '/',JSON.stringify(task))
+   					.toPromise()
+   					.then(response => response.text() as String)
+   }
+
+   deleteTask(task:Task):Promise<String> {
+   	return this.http.delete(this.taskUrl + 'input/'+ task.key + '/')
+   					.toPromise()
+   					.then(response => response.text() as String)
+   }
+
 }

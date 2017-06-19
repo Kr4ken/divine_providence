@@ -48,21 +48,21 @@ class TaskSerializer(serializers.Serializer):
 
     key = serializers.CharField(required=True, max_length=30)
     name = serializers.CharField(required=True, max_length=100)
-    description = serializers.CharField(required=False, max_length=500)
-    duration = serializers.IntegerField(required=False)
+    description = serializers.CharField(required=False, max_length=500, allow_blank=True, allow_null=True)
+    duration = serializers.IntegerField(required=False,  allow_null=True)
     list_key = serializers.CharField(required=True, max_length=30)
-    checklist = serializers.CharField(required=False, max_length=5000)
-    due_date = serializers.DateField(required=False)
-    attribute = serializers.CharField(required=False, max_length=1)
-    labels = serializers.CharField(required=False, max_length=2)
-    special = serializers.CharField(required=False, max_length=1000)
-    image = serializers.CharField(required=False, max_length=1000)
+    checklist = serializers.CharField(required=False, max_length=5000, allow_blank=True, allow_null=True)
+    due_date = serializers.DateField(required=False,  allow_null=True)
+    attribute = serializers.CharField(required=False, max_length=1, allow_blank=True, allow_null=True)
+    labels = serializers.CharField(required=False, max_length=2, allow_blank=True, allow_null=True)
+    special = serializers.CharField(required=False, max_length=1000, allow_blank=True, allow_null=True)
+    image = serializers.CharField(required=False, max_length=1000, allow_blank=True, allow_null=True)
 
     def create(self, validated_data):
         """
         Create and return a new `Snippet` instance, given the validated data.
         """
-        instance = Task
+        instance = Task()
         instance.key = validated_data.get('key', instance.key)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
