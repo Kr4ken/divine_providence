@@ -3,6 +3,13 @@ from task_dispatch.models import IdObject
 
 class IdController:
 	@staticmethod
+	def get_board_lists_name(board_name):
+		names=[]
+		for list in IdObject.objects.filter(owner_key=IdController.get_board_id(board_name),type=IdObject.LIST_TYPE):
+			names.append(list.name)
+		return names
+
+	@staticmethod
 	def fill_boards(board_list):
 		for board in board_list:
 			id_object = IdObject(name=board['name'], key=board['key'], owner_key=None, type=IdObject.BOARD_TYPE)
@@ -48,6 +55,14 @@ class IdController:
 		except IdObject.DoesNotExist:
 			return False
 		return id_object.key
+
+	@staticmethod
+	def get_list_name(list_id):
+		try:
+			id_object = IdObject.objects.get(key=list_id, type=IdObject.LIST_TYPE)
+		except IdObject.DoesNotExist:
+			return False
+		return id_object.name
 
 	@staticmethod
 	def get_label_id_on_board(label_name, board_name):

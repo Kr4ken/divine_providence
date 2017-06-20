@@ -14,13 +14,15 @@ var app_component_1 = require("./app.component");
 var complete_component_1 = require("./complete/complete.component");
 var control_component_1 = require("./control/control.component");
 var inputTask_component_1 = require("./inputTask/inputTask.component");
+var distributeTask_component_1 = require("./distributeTask/distributeTask.component");
 var interest_service_1 = require("./interestService/interest.service");
 var Control_service_1 = require("./controlService/Control.service");
 var task_service_1 = require("./taskService/task.service");
 var appRoutes = [
     { path: 'interests', component: complete_component_1.CompleteComponent },
     { path: 'control', component: control_component_1.ControlComponent },
-    { path: 'tasks', component: inputTask_component_1.InputTaskComponent },
+    { path: 'tasks/input', component: inputTask_component_1.InputTaskComponent },
+    { path: 'tasks/distribute', component: distributeTask_component_1.DistributeTaskComponent },
     { path: '',
         redirectTo: '/interests',
         pathMatch: 'full'
@@ -43,7 +45,8 @@ AppModule = __decorate([
             app_component_1.AppComponent,
             complete_component_1.CompleteComponent,
             control_component_1.ControlComponent,
-            inputTask_component_1.InputTaskComponent
+            inputTask_component_1.InputTaskComponent,
+            distributeTask_component_1.DistributeTaskComponent
         ],
         providers: [
             interest_service_1.InterestService,

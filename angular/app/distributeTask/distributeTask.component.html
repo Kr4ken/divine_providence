@@ -1,0 +1,93 @@
+<div class="panel panel-default">
+    <div *ngIf="!load; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <div *ngIf="distributeTaskList.length>0; then thenBlock2 else elseBlock2"></div>
+        <ng-template #thenBlock2>
+            <div class="panel-heading">
+                <h3 class="panel-title">{{selectedTask.name}}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object" [src]="selectedTask.image" height="200" width="200">
+                    </div>
+                    <div class="media-body">
+                        <!-- Название -->
+                        <div class="form-group">
+                            <label for="name">Название:</label>
+                            <input [(ngModel)]="selectedTask.name" type="text" class="form-control" id="name">
+                        </div>
+                        <!-- Картинка -->
+                        <div class="form-group">
+                            <label for="image">Картинка:</label>
+                            <input [(ngModel)]="selectedTask.image" type="text" class="form-control" id="image">
+                        </div>
+                    </div>
+                </div>
+                <!-- Описание -->
+                <div class="form-group">
+                    <label for="description">Описание:</label>
+                    <textarea [(ngModel)]="selectedTask.description" class="form-control" rows="5" id="description"></textarea>
+                </div>
+                <div class="row">
+                    <!-- Чеклист -->
+                    <div class="panel panel-default col-md-3">
+                        <div class="panel-heading">
+                            <input [(ngModel)]="selectedChecklistName" (change)="checkListClear()" type="text" class="form-control" id="due">
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <input *ngFor="let check of selectedChecklist" [(ngModel)]="check.name" (dblclick)="onCheckListClick(check)" (change)="checkListDelete(check)" type="text" class="form-control" class="list-group-item" [ngClass]="{'active':check.complete}">
+                                <input [(ngModel)]="newChecklistItem.name" (change)="onNewCheckListItemChange()" type="text" class="form-control" class="list-group-item" [ngClass]="{'active':newChecklistItem.complete}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Продолжительность -->
+                    <div class="form-group col-md-3">
+                        <label for="duration">Продолжительность:</label>
+                        <input [(ngModel)]="selectedTask.duration" type="number" class="form-control" id="duration">
+                    </div>
+                    <!-- Выполнить до -->
+                    <div class="form-group col-md-3">
+                        <label for="due">Выполнить до:</label>
+                        <input [(ngModel)]="selectedTask.due_date" type="text" class="form-control" id="due">
+                    </div>
+                    <!-- Тип  -->
+                    <div class="form-group col-md-3">
+                        <label for="type">Тип задачи:</label>
+                        <select [(ngModel)]="selectedType" class="form-control">
+                            <option *ngFor="let type of taskTypes">{{type}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Особенности -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Особенности</h3>
+                    </div>
+                    <div class="panel-body">
+                     {{selectedSpecial.complete}}
+
+                    </div>
+                </div>
+                <!-- Блок кнопок -->
+                <div class="btn-group" style="padding-top: 10px">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-success btn-lg" (click)="saveTask()">Сохранить</button>
+                        <button type="button" class="btn btn-danger btn-lg" (click)="deleteTask()">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #elseBlock2>
+            <div class="panel-body">
+                <h1>Нет задач в списке распределения</h1>
+            </div>
+        </ng-template>
+    </ng-template>
+    <ng-template #elseBlock>
+        <div class="panel-body">
+            <img src="static/task_dispatch/loading.gif" />
+        </div>
+    </ng-template>
+</div>

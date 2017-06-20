@@ -20,7 +20,8 @@ tw = TrelloWrapper()
 def inputTasks(request, key):
     if request.method == 'GET':
         tasks = tw.get_input_tasks()
-        serializer = TaskSerializer(tasks,many=True)
+        serializer = TaskSerializer(tasks, many=True)
+        print(len(tasks))
         return JsonResponse(serializer.data,safe=False)
     if request.method == 'DELETE':
         tw.delete_task(key)
@@ -47,7 +48,42 @@ def inputTasks(request, key):
         else:
             return HttpResponse(status=200, content='Fail')
 
+@csrf_exempt
+def taskTypes(request):
+    if request.method == 'GET':
+        return HttpResponse(status=200, content=tw.get_task_types())
 
+
+@csrf_exempt
+def distributeTasks(request, key):
+    if request.method == 'GET':
+        tasks = tw.get_distribute_tasks()
+        serializer = TaskSerializer(tasks,many=True)
+        return JsonResponse(serializer.data,safe=False)
+    if request.method == 'DELETE':
+        tw.delete_task(key)
+        return HttpResponse(status=200, content='Ok')
+    if request.method == 'POST':
+        body = ''  # b'' for consistency on Python 3.0
+        try:
+            length = int(request.environ.get('CONTENT_LENGTH', '0'))
+        except ValueError:
+            length = 0
+        if length != 0:
+            body = request.environ['wsgi.input'].read(length)
+        stream = BytesIO(body)
+        data = JSONParser().parse(stream)
+        if key is not None:
+            serializer = TaskSerializer(instance=Task.objects.get(key=key),data=data)
+        else:
+            serializer = TaskSerializer(data=data)
+
+        if serializer.is_valid(True):
+            task = serializer.save()
+            tw.update_input_task(task)
+            return HttpResponse(status=200, content='Ok')
+        else:
+            return HttpResponse(status=200, content='Fail')
 
 
 

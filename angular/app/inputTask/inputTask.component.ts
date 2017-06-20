@@ -12,9 +12,7 @@ import { Interest } from '../interestService/interest'
 })
 
 export class InputTaskComponent{
-
-
-
+	load:Boolean=true;
 	inputTaskList: Task[] =[];
 	interestList: Interest[]=[];
 	selectedTask:Task;
@@ -34,7 +32,7 @@ export class InputTaskComponent{
 
 	  constructor(
     private inputTaskService: TaskService,
-    private interestService: InterestService) { }
+    private interestService: InterestService) { this.load=true; }
 
 	  getInputTasks():void{
 	  	this.inputTaskService
@@ -42,8 +40,8 @@ export class InputTaskComponent{
 	  		.then(tasks => {
 	  			this.inputTaskList = tasks;
 	  			this.selectedTask = tasks[0];
+	  			this.load = false;
 	  		})
-
 	  	this.interestService
 	  		.getInterests()
 	  		.then(interests => {
@@ -58,7 +56,25 @@ export class InputTaskComponent{
 	  deleteTask():void{
 	  	this.inputTaskService.deleteTask(this.selectedTask)
 	  	.then(Response => console.log(Response) )
+		this.inputTaskList.splice(0,1);
+	  	if(this.inputTaskList.length > 1){
+		  	this.selectedTask = this.inputTaskList[0];
+	  	} 
+	  	else{
+	  		this.selectedTask=null;
+	  	}
+	  }
 
+	  toInterest(i:Interest):void {
+	  	this.selectedTask.list_key = i.list_key;
+	  	this.inputTaskService.saveInputTask(this.selectedTask)
+		this.inputTaskList.splice(0,1);
+	  	if(this.inputTaskList.length > 1){
+		  	this.selectedTask = this.inputTaskList[0];
+	  	} 
+	  	else{
+	  		this.selectedTask=null;
+	  	}
 	  }
 
 
@@ -67,13 +83,11 @@ export class InputTaskComponent{
 	  	this.inputTaskService.saveInputTask(this.selectedTask)
 	  	.then(resp => console.log(resp.toString()));
 	  	if(this.inputTaskList.length > 1){
-		  	this.inputTaskList.splice(0,1);
 		  	this.selectedTask = this.inputTaskList[0];
 	  	} 
-	  	else {
-	  		console.log('Нет элементов')
+	  	else{
+	  		this.selectedTask=null;
 	  	}
-
 	  }
 }
 

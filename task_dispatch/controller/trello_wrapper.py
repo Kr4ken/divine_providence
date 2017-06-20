@@ -107,65 +107,76 @@ class TrelloWrapper:
 		board_id = IdController.get_board_id('Прогресс')
 		list_id = IdController.get_list_id_on_board('Входящие', 'Прогресс')
 		board = client.get_board(board_id=board_id)
-		list = board.get_list(list_id)
-		for card in list.list_cards():
-			print('Load card ' + card.name)
-			#Load special and description
-			description = card.description
-			special = ''
-			special_start = '[special]('
-			special_end = ')'
-			if description.find(special_start) != -1:
-				special = description[description.find(special_start) + len(special_start):description.find(special_end) - len(special_end) + 1]
-				description = description[:description.find(special_start)]
+		lista = board.get_list(list_id)
+		list_list = [lista]
+		list_id = IdController.get_list_id_on_board('Распределить', 'Прогресс')
+		listb = board.get_list(list_id)
+		list_list.append(listb)
 
-			#Load duration
-			name = card.name
-			duration = 0
-			duration_start = '['
-			duration_end = ']'
-			if name.find(duration_start) != -1:
-				duration = name[name.find(duration_start) + len(duration_start):name.find(duration_end) - len(duration_end) + 1]
-				name = name[:name.find(duration_start)]
+		for list in list_list:
+			print("Load list : " + list.name)
+			for card in list.list_cards():
+				print('Load card ' + card.name)
+				#Load special and description
+				description = card.description
+				special = ''
+				special_start = '[special]('
+				special_end = ')'
+				if description.find(special_start) != -1:
+					special = description[description.find(special_start) + len(special_start):description.find(special_end) - len(special_end) + 1]
+					description = description[:description.find(special_start)]
 
-			checkList =[]
-			sub_task=''
-			labels=[]
-			card.fetch_checklists()
+				#Load duration
+				name = card.name
+				duration = 0
+				duration_start = '['
+				duration_end = ']'
+				if name.find(duration_start) != -1:
+					duration = name[name.find(duration_start) + len(duration_start):name.find(duration_end) - len(duration_end) + 1]
+					name = name[:name.find(duration_start)]
 
-			#Load checklists
-			if (len(card.checklists) > 0):
-				for item in card.checklists[0].items:
-					ch = ''
-					if item['checked']:
-						ch = ' +'
-					checkList.append(item['name'] + ch)
-					if (sub_task == '' and not item['checked']):
-						sub_task = item['name']
-				checkList.insert(0, card.checklists[0].name)
-			# Если есть лейблы грузим их
-			if (card.list_labels):
-				labels = [x.name for x in card.list_labels]
-			# Load image
-			card.fetch_attachments(True)
-			image = card.get_attachments()[0].url if len(card.get_attachments())>0 else ''
-			task = Task(key=card.id,
-			            name=name,
-			            description=description,
-			            duration=duration,
-			            list_key=list_id,
-			            checklist=checkList,
-			            # due_date=card.due_date,
-			            labels='NN',
-			            special=special,
-			            image=image
-			            )
-			task.save()
-			print('card saved')
+				checkList =[]
+				sub_task=''
+				labels=[]
+				card.fetch_checklists()
+
+				#Load checklists
+				if (len(card.checklists) > 0):
+					for item in card.checklists[0].items:
+						ch = ''
+						if item['checked']:
+							ch = ' +'
+						checkList.append(item['name'] + ch)
+						if (sub_task == '' and not item['checked']):
+							sub_task = item['name']
+					checkList.insert(0, card.checklists[0].name)
+				# Если есть лейблы грузим их
+				if (card.list_labels):
+					labels = [x.name for x in card.list_labels]
+				# Load image
+				card.fetch_attachments(True)
+				image = card.get_attachments()[0].url if len(card.get_attachments())>0 else ''
+				task = Task(key=card.id,
+				            name=name,
+				            description=description,
+				            duration=duration,
+				            list_key=list.id,
+				            checklist=";".join(checkList),
+				            # due_date=card.due_date,
+				            labels='NN',
+				            special=special,
+				            image=image
+				            )
+				task.save()
+				print('card saved')
 		return 'All OK'
 
 	def get_input_tasks(self):
 		list_id = IdController.get_list_id_on_board('Входящие', 'Прогресс')
+		return Task.objects.filter(list_key=list_id)
+
+	def get_distribute_tasks(self):
+		list_id = IdController.get_list_id_on_board('Распределить', 'Прогресс')
 		return Task.objects.filter(list_key=list_id)
 
 	def update_input_task(self, task):
@@ -173,27 +184,41 @@ class TrelloWrapper:
 			api_key=self.conf['trello']['api_key'],
 			token=self.conf['trello']['token'])
 		print('Connected')
-		ur_label = client.get_label(IdController.get_label_id_on_board('Срочные цели','Прогресс'), IdController.get_board_id('Прогресс'))
-		nur_label = client.get_label(IdController.get_label_id_on_board('Не срочные цели','Прогресс'), IdController.get_board_id('Прогресс'))
 		card = client.get_card(task.key)
-		if task.labels == 'UI':
-			card.add_label(ur_label)
-			card.change_list(IdController.get_list_id_on_board('Распределить', 'Прогресс'))
-		elif task.labels == 'UN':
-			card.add_label(ur_label)
-			card.change_board(IdController.get_board_id('Неважное'), IdController.get_list_id_on_board('Неважное', 'Срочное'))
-		elif task.labels == 'NI':
-			card.add_label(nur_label)
-			card.change_board(IdController.get_board_id('Цели'), IdController.get_list_id_on_board('Цели', 'Новые'))
-		elif task.labels == 'NN':
-			card.add_label(nur_label)
-			card.change_board(IdController.get_board_id('Неважное'), IdController.get_list_id_on_board('Неважное', 'Несрочное'))
 		if task.image is not None:
 			card.attach(url=task.image)
 		if task.description is not None:
 			card.set_description(task.description)
-		print('Task ' + task.name + ' set labels ' + task.labels)
-		task.save()
+		#Если это интерес
+		if task.list_key != IdController.get_list_id_on_board('Входящие', 'Прогресс'):
+			print('Save interest')
+			card.change_board(IdController.get_board_id('Интересы'), task.list_key)
+			int = Interest(key = task.key,name = task.name, img = task.image,list_key = task.list_key,list_name = IdController.get_list_name(task.list_key),description = task.description,ord_pos = card.pos)
+			int.save()
+			task.delete()
+			print('Complete')
+		else:
+			print('Save as task')
+			ur_label = client.get_label(IdController.get_label_id_on_board('Срочные цели', 'Прогресс'), IdController.get_board_id('Прогресс'))
+			nur_label = client.get_label(IdController.get_label_id_on_board('Не срочные цели', 'Прогресс'), IdController.get_board_id('Прогресс'))
+			if task.labels == 'UI':
+				card.add_label(ur_label)
+				card.change_list(IdController.get_list_id_on_board('Распределить', 'Прогресс'))
+				task.list_key = IdController.get_list_id_on_board('Распределить', 'Прогресс')
+			elif task.labels == 'UN':
+				card.add_label(ur_label)
+				card.change_board(IdController.get_board_id('Неважное'), IdController.get_list_id_on_board( 'Срочное','Неважное'))
+				task.list_key = IdController.get_list_id_on_board( 'Срочное','Неважное')
+			elif task.labels == 'NI':
+				card.add_label(nur_label)
+				card.change_board(IdController.get_board_id('Цели'), IdController.get_list_id_on_board('Новые', 'Цели'))
+				task.list_key = IdController.get_list_id_on_board('Новые', 'Цели')
+			elif task.labels == 'NN':
+				card.add_label(nur_label)
+				card.change_board(IdController.get_board_id('Неважное'), IdController.get_list_id_on_board('Несрочное', 'Неважное'))
+				task.list_key = IdController.get_list_id_on_board('Несрочное', 'Неважное')
+			print('Task ' + task.name + ' set labels ' + task.labels)
+			task.save()
 		return 'All OK'
 
 	def delete_task(self, key):
@@ -206,6 +231,13 @@ class TrelloWrapper:
 		card.delete()
 		Task.objects.get(key=key).delete()
 
+	def get_task_types(self):
+		excludedTypes=['Входящие','Распределить','Пауза (В ожидании)','Выполненые','Сегодня']
+		types=[]
+		for type in IdController.get_board_lists_name('Прогресс'):
+			if type not in excludedTypes:
+				types.append(type)
+		return ";".join(types)
 
 
 	def create_hook(self):

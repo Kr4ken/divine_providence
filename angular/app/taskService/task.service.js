@@ -22,6 +22,16 @@ var TaskService = (function () {
             .toPromise()
             .then(function (response) { return response.json(); });
     };
+    TaskService.prototype.getDistributeTasks = function () {
+        return this.http.get(this.taskUrl + 'distribute/')
+            .toPromise()
+            .then(function (response) { return response.json(); });
+    };
+    TaskService.prototype.getTaskTypes = function () {
+        return this.http.get(this.taskUrl + 'types/')
+            .toPromise()
+            .then(function (response) { return response.text().toString().split(';'); });
+    };
     TaskService.prototype.saveInputTask = function (task) {
         return this.http.post(this.taskUrl + 'input/' + task.key + '/', JSON.stringify(task))
             .toPromise()

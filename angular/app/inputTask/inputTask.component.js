@@ -15,6 +15,7 @@ var InputTaskComponent = (function () {
     function InputTaskComponent(inputTaskService, interestService) {
         this.inputTaskService = inputTaskService;
         this.interestService = interestService;
+        this.load = true;
         this.inputTaskList = [];
         this.interestList = [];
         this.counter = 0;
@@ -26,6 +27,7 @@ var InputTaskComponent = (function () {
             new selectItem('N', 'Не срочно'),
             new selectItem('U', 'Срочно'),
         ];
+        this.load = true;
     }
     InputTaskComponent.prototype.getInputTasks = function () {
         var _this = this;
@@ -34,6 +36,7 @@ var InputTaskComponent = (function () {
             .then(function (tasks) {
             _this.inputTaskList = tasks;
             _this.selectedTask = tasks[0];
+            _this.load = false;
         });
         this.interestService
             .getInterests()
@@ -47,17 +50,34 @@ var InputTaskComponent = (function () {
     InputTaskComponent.prototype.deleteTask = function () {
         this.inputTaskService.deleteTask(this.selectedTask)
             .then(function (Response) { return console.log(Response); });
+        this.inputTaskList.splice(0, 1);
+        if (this.inputTaskList.length > 1) {
+            this.selectedTask = this.inputTaskList[0];
+        }
+        else {
+            this.selectedTask = null;
+        }
+    };
+    InputTaskComponent.prototype.toInterest = function (i) {
+        this.selectedTask.list_key = i.list_key;
+        this.inputTaskService.saveInputTask(this.selectedTask);
+        this.inputTaskList.splice(0, 1);
+        if (this.inputTaskList.length > 1) {
+            this.selectedTask = this.inputTaskList[0];
+        }
+        else {
+            this.selectedTask = null;
+        }
     };
     InputTaskComponent.prototype.saveTask = function () {
         this.selectedTask.labels = this.urg.concat(this.imp.toString());
         this.inputTaskService.saveInputTask(this.selectedTask)
             .then(function (resp) { return console.log(resp.toString()); });
         if (this.inputTaskList.length > 1) {
-            this.inputTaskList.splice(0, 1);
             this.selectedTask = this.inputTaskList[0];
         }
         else {
-            console.log('Нет элементов');
+            this.selectedTask = null;
         }
     };
     return InputTaskComponent;
