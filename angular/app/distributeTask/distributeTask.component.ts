@@ -3,6 +3,7 @@ import { FormsModule }   from '@angular/forms';
 
 import { TaskService } from '../taskService/task.service'
 import { Task } from '../taskService/task'
+import { TaskType } from '../taskService/tasktype'
 
 @Component({
     selector: 'distributeTask',
@@ -17,7 +18,7 @@ export class DistributeTaskComponent{
 	newChecklistItem:checklistItem;
 	selectedChecklistName:String;
 	selectedType:String;
-	taskTypes:String[];
+	taskTypes:TaskType[];
 
 	selectedSpecial:special;
 
@@ -46,6 +47,11 @@ export class DistributeTaskComponent{
 	  	else{
 	  		this.selectedTask=null;
 	  	}
+	}
+
+	spercialDeleteChange():void{
+		this.selectedSpecial.complete =  this.selectedSpecial.complete == "delete"?"complete":"delete";
+		console.log(this.selectedSpecial);
 	}
 
 	checkListClear():void{

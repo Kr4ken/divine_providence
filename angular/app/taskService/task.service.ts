@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Task } from './task';
+import { TaskType } from './tasktype';
 
 @Injectable()
 export class TaskService {
@@ -25,10 +26,10 @@ export class TaskService {
                .then(response => response.json() as Task[])
    }
 
-   getTaskTypes():Promise<String[]> {
+   getTaskTypes():Promise<TaskType[]> {
     return this.http.get(this.taskUrl + 'types/')
                .toPromise()
-               .then(response => response.text().toString().split(';'))
+               .then(response => response.json() as TaskType[])
    }
 
    saveInputTask(task:Task):Promise<String>{

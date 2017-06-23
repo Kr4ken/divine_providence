@@ -1,6 +1,20 @@
 from rest_framework import serializers
 # from .controller.trello.interest import Interest
-from .models import Interest,Task
+from .models import Interest,Task, TaskType
+
+
+class TaskTypeSerializer(serializers.Serializer):
+    key = serializers.CharField(required=True, allow_blank=False, max_length=30)
+    name = serializers.CharField(required=True, allow_blank=False, max_length=200)
+
+    def create(self, validated_data):
+        instance = Task
+        instance.key = validated_data.get('key', instance.key)
+        instance.name = validated_data.get('name', instance.name)
+
+    def update(self, instance, validated_data):
+        instance.key = validated_data.get('key', instance.key)
+        instance.name = validated_data.get('name', instance.name)
 
 
 class InterestSerializer(serializers.Serializer):

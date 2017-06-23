@@ -1,7 +1,7 @@
 import json
 import random
 from trello import TrelloClient
-from ..models import Interest, Task
+from ..models import Interest, Task, TaskType
 from django.conf import settings
 from .trello.IdController import IdController
 
@@ -78,7 +78,7 @@ class TrelloWrapper:
 	def get_interests(self):
 		return Interest.objects.filter(ord_pos=0)
 
-	def get_interest(self,key):
+	def get_interest(self, key):
 		return Interest.objects.get(key=key)
 
 	def complete_interest(self, list_key):
@@ -236,9 +236,9 @@ class TrelloWrapper:
 		types=[]
 		for type in IdController.get_board_lists_name('Прогресс'):
 			if type not in excludedTypes:
-				types.append(type)
-		return ";".join(types)
-
+				types.append(TaskType(key=IdController.get_list_id_on_board(type, 'Прогресс'), name=type))
+		return types
+		# return ";".join(types)
 
 	def create_hook(self):
 		print('start creating trello hook')

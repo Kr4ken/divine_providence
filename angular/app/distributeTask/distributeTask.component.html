@@ -56,7 +56,7 @@
                     <div class="form-group col-md-3">
                         <label for="type">Тип задачи:</label>
                         <select [(ngModel)]="selectedType" class="form-control">
-                            <option *ngFor="let type of taskTypes">{{type}}</option>
+                            <option *ngFor="let type of taskTypes" value="type.key">{{type.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -66,7 +66,12 @@
                         <h3>Особенности</h3>
                     </div>
                     <div class="panel-body">
-                     {{selectedSpecial.complete}}
+                       <div class="checkbox">
+                           <label>
+                              <input type="checkbox" (change) = "spercialDeleteChange()" [(ngValue)]="selectedSpecial.complete == 'delete'" > Удалять запись после выполнения
+                          </label>
+                      </div>
+                     <!-- {{selectedSpecial.complete}} -->
 
                     </div>
                 </div>

@@ -61,3 +61,6 @@ class Interest(models.Model):
 		description = models.CharField(max_length=300, null=True)
 		ord_pos = models.IntegerField(null=True)
 
+class TaskType(models.Model):
+	key = models.CharField(max_length=30)
+	name = models.CharField(max_length=200)

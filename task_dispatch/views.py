@@ -7,7 +7,7 @@ from .controller.trello_wrapper import TrelloWrapper
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import InterestSerializer, TaskSerializer
+from .serializers import InterestSerializer, TaskSerializer, TaskTypeSerializer
 
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
@@ -21,7 +21,6 @@ def inputTasks(request, key):
     if request.method == 'GET':
         tasks = tw.get_input_tasks()
         serializer = TaskSerializer(tasks, many=True)
-        print(len(tasks))
         return JsonResponse(serializer.data,safe=False)
     if request.method == 'DELETE':
         tw.delete_task(key)
@@ -51,7 +50,15 @@ def inputTasks(request, key):
 @csrf_exempt
 def taskTypes(request):
     if request.method == 'GET':
-        return HttpResponse(status=200, content=tw.get_task_types())
+        print('Get task types')
+        types = tw.get_task_types()
+        print(len(types))
+        print('Serializer')
+        serializer = TaskTypeSerializer(types, many=True)
+        print('Response')
+        response = JsonResponse(serializer.data, safe=False)
+        print('Return')
+        return  response
 
 
 @csrf_exempt

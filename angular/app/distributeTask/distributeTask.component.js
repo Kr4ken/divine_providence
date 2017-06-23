@@ -41,6 +41,10 @@ var DistributeTaskComponent = (function () {
             this.selectedTask = null;
         }
     };
+    DistributeTaskComponent.prototype.spercialDeleteChange = function () {
+        this.selectedSpecial.complete = this.selectedSpecial.complete == "delete" ? "complete" : "delete";
+        console.log(this.selectedSpecial);
+    };
     DistributeTaskComponent.prototype.checkListClear = function () {
         if (this.selectedChecklistName == '') {
             this.selectedChecklist = [];
