@@ -21,6 +21,7 @@ export class DistributeTaskComponent{
 	taskTypes:TaskType[];
 
 	selectedSpecial:special;
+	specialDelete:Boolean;
 
 	updateSelectedTask():void{
 	  	if(this.distributeTaskList && this.distributeTaskList.length > 1){
@@ -43,16 +44,17 @@ export class DistributeTaskComponent{
 		  	}
 
 		  	this.selectedSpecial = JSON.parse(this.selectedTask.special.toString());
+		  	this.specialDelete = this.selectedSpecial.complete =='delete';
 		  } 
 	  	else{
 	  		this.selectedTask=null;
 	  	}
 	}
 
-	spercialDeleteChange():void{
-		this.selectedSpecial.complete =  this.selectedSpecial.complete == "delete"?"complete":"delete";
-		console.log(this.selectedSpecial);
-	}
+	// spercialDeleteChange():void{
+	// 	this.selectedSpecial.complete =  this.selectedSpecial.complete == "delete"?"complete":"delete";
+	// 	console.log(this.selectedSpecial);
+	// }
 
 	checkListClear():void{
 		if(this.selectedChecklistName=='')
@@ -111,8 +113,15 @@ export class DistributeTaskComponent{
 	  	this.updateSelectedTask();
 	  }
 
+	  fillSelectedTask():void {
+	  	this.selectedSpecial.complete = this.specialDelete?'delete':'complete';
+	  	this.selectedTask.special = JSON.stringify(this.selectedSpecial);
+	  	this.selectedTask.checklist =  this.selectedChecklistName + ';' + this.selectedChecklist.map((v,i) =>  v.name + (v.complete?' +':'')).join(';');
+	  }
+
 	  saveTask():void {
-	  	this.TaskService.saveInputTask(this.selectedTask)
+	  	this.fillSelectedTask();
+	  	this.TaskService.saveDistributeTask(this.selectedTask)
 	  	.then(resp => console.log(resp.toString()));
 		this.distributeTaskList.splice(0,1);
 	  	this.updateSelectedTask();

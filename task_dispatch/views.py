@@ -72,6 +72,7 @@ def distributeTasks(request, key):
         return HttpResponse(status=200, content='Ok')
     if request.method == 'POST':
         body = ''  # b'' for consistency on Python 3.0
+        print('POST get')
         try:
             length = int(request.environ.get('CONTENT_LENGTH', '0'))
         except ValueError:
@@ -79,6 +80,7 @@ def distributeTasks(request, key):
         if length != 0:
             body = request.environ['wsgi.input'].read(length)
         stream = BytesIO(body)
+        print('stream ')
         data = JSONParser().parse(stream)
         if key is not None:
             serializer = TaskSerializer(instance=Task.objects.get(key=key),data=data)
@@ -87,7 +89,9 @@ def distributeTasks(request, key):
 
         if serializer.is_valid(True):
             task = serializer.save()
-            tw.update_input_task(task)
+            # print(task)
+            # tw.update_input_task(task)
+            tw.update_distribute_task(task)
             return HttpResponse(status=200, content='Ok')
         else:
             return HttpResponse(status=200, content='Fail')

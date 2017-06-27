@@ -36,15 +36,16 @@ var DistributeTaskComponent = (function () {
                 this.newChecklistItem = new checklistItem(false, "");
             }
             this.selectedSpecial = JSON.parse(this.selectedTask.special.toString());
+            this.specialDelete = this.selectedSpecial.complete == 'delete';
         }
         else {
             this.selectedTask = null;
         }
     };
-    DistributeTaskComponent.prototype.spercialDeleteChange = function () {
-        this.selectedSpecial.complete = this.selectedSpecial.complete == "delete" ? "complete" : "delete";
-        console.log(this.selectedSpecial);
-    };
+    // spercialDeleteChange():void{
+    // 	this.selectedSpecial.complete =  this.selectedSpecial.complete == "delete"?"complete":"delete";
+    // 	console.log(this.selectedSpecial);
+    // }
     DistributeTaskComponent.prototype.checkListClear = function () {
         if (this.selectedChecklistName == '') {
             this.selectedChecklist = [];
@@ -92,8 +93,14 @@ var DistributeTaskComponent = (function () {
         this.distributeTaskList.splice(0, 1);
         this.updateSelectedTask();
     };
+    DistributeTaskComponent.prototype.fillSelectedTask = function () {
+        this.selectedSpecial.complete = this.specialDelete ? 'delete' : 'complete';
+        this.selectedTask.special = JSON.stringify(this.selectedSpecial);
+        this.selectedTask.checklist = this.selectedChecklistName + ';' + this.selectedChecklist.map(function (v, i) { return v.name + (v.complete ? ' +' : ''); }).join(';');
+    };
     DistributeTaskComponent.prototype.saveTask = function () {
-        this.TaskService.saveInputTask(this.selectedTask)
+        this.fillSelectedTask();
+        this.TaskService.saveDistributeTask(this.selectedTask)
             .then(function (resp) { return console.log(resp.toString()); });
         this.distributeTaskList.splice(0, 1);
         this.updateSelectedTask();

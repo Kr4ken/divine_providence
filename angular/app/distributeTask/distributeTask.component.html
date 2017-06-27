@@ -33,7 +33,7 @@
                     <!-- Чеклист -->
                     <div class="panel panel-default col-md-3">
                         <div class="panel-heading">
-                            <input [(ngModel)]="selectedChecklistName" (change)="checkListClear()" type="text" class="form-control" id="due">
+                            <input [(ngModel)]="selectedChecklistName" (change)="checkListClear()" type="text" class="form-control">
                         </div>
                         <div class="panel-body">
                             <div class="list-group">
@@ -68,7 +68,7 @@
                     <div class="panel-body">
                        <div class="checkbox">
                            <label>
-                              <input type="checkbox" (change) = "spercialDeleteChange()" [(ngValue)]="selectedSpecial.complete == 'delete'" > Удалять запись после выполнения
+                              <input type="checkbox" [(ngModel)] = "specialDelete"> Удалять запись после выполнения
                           </label>
                       </div>
                      <!-- {{selectedSpecial.complete}} -->

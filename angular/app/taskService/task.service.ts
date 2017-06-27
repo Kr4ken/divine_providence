@@ -23,7 +23,7 @@ export class TaskService {
   getDistributeTasks(): Promise<Task[]> {
     return this.http.get(this.taskUrl + 'distribute/')
                .toPromise()
-               .then(response => response.json() as Task[])
+               .then(response =>response.json() as Task[])
    }
 
    getTaskTypes():Promise<TaskType[]> {
@@ -36,6 +36,12 @@ export class TaskService {
    	return this.http.post(this.taskUrl + 'input/' + task.key + '/',JSON.stringify(task))
    					.toPromise()
    					.then(response => response.text() as String)
+   }
+
+   saveDistributeTask(task:Task):Promise<String>{
+     return this.http.post(this.taskUrl + 'distribute/' + task.key + '/',JSON.stringify(task))
+             .toPromise()
+             .then(response => response.text() as String)
    }
 
    deleteTask(task:Task):Promise<String> {

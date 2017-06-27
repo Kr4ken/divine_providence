@@ -221,6 +221,36 @@ class TrelloWrapper:
 			task.save()
 		return 'All OK'
 
+	def update_distribute_task(self, task):
+		client = TrelloClient(
+			api_key=self.conf['trello']['api_key'],
+			token=self.conf['trello']['token'])
+		print('Connected')
+		card = client.get_card(task.key)
+		if task.image is not None and len(card.get_attachments()) == 0:
+			card.attach(url=task.image)
+		if task.description is not None:
+			card.set_description(task.description + ' [special](' +  task.special + ')')
+		if task.name is not None:
+			card.set_name(task.name +' [' +  task.duration + ']')
+		if task.checklist is not None:
+			card.fetch_checklists()
+			clName = task.checklist.split(';')[0]
+			clN = [x if not x.endswith(' +') else x[:-2] for x in task.checklist.split(';')[1:] ]
+			clC = [x.endswith(' +') for x in task.checklist.split(';')[1:]]
+			if len(card.checklists) > 0:
+				card.checklists[0].delete()
+			card.add_checklist(clName,clN,clC)
+
+		if task.list_key is not None:
+			card.change_list(task.list_key)
+
+		if task.list_key is not None:
+			card.change_list(task.list_key)
+
+		task.save()
+		return 'All OK'
+
 	def delete_task(self, key):
 		client = TrelloClient(
 			api_key=self.conf['trello']['api_key'],
