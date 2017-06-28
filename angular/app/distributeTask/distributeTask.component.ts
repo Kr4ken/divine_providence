@@ -24,24 +24,27 @@ export class DistributeTaskComponent{
 	specialDelete:Boolean;
 
 	updateSelectedTask():void{
-	  	if(this.distributeTaskList && this.distributeTaskList.length > 1){
+	  	if(this.distributeTaskList && this.distributeTaskList.length > 0){
 		  	this.selectedTask = this.distributeTaskList[0];
 		  	let checklist:String[];
-		  	checklist = this.selectedTask.checklist.split(';');
-		  	this.selectedChecklist = [];
-		  	this.selectedChecklistName = checklist[0];
-		  	checklist.splice(0,1);
-		  	for(let check of checklist) 	  	
+		  	console.log(this.selectedTask.checklist);
+		  	if(this.selectedTask.checklist != '')
 		  	{
-			  	console.log(check);
-			  	let checkName:String;
-			  	let checked:Boolean;
-			  	checked = check.endsWith(" +")
-			  	checkName = checked?check.substring(0,check.length-2):check;
-		  		this.selectedChecklist.push(new checklistItem(checked,checkName))
-		  		this.newChecklistItem = new checklistItem(false,"");
-
+			  	checklist = this.selectedTask.checklist.split(';');
+			  	this.selectedChecklist = [];
+			  	this.selectedChecklistName = checklist[0];
+			  	checklist.splice(0,1);
+			  	for(let check of checklist) 	  	
+			  	{
+				  	console.log(check);
+				  	let checkName:String;
+				  	let checked:Boolean;
+				  	checked = check.endsWith(" +")
+				  	checkName = checked?check.substring(0,check.length-2):check;
+			  		this.selectedChecklist.push(new checklistItem(checked,checkName))
+			  	}
 		  	}
+			this.newChecklistItem = new checklistItem(false,"");
 
 		  	this.selectedSpecial = JSON.parse(this.selectedTask.special.toString());
 		  	this.specialDelete = this.selectedSpecial.complete =='delete';
@@ -51,10 +54,6 @@ export class DistributeTaskComponent{
 	  	}
 	}
 
-	// spercialDeleteChange():void{
-	// 	this.selectedSpecial.complete =  this.selectedSpecial.complete == "delete"?"complete":"delete";
-	// 	console.log(this.selectedSpecial);
-	// }
 
 	checkListClear():void{
 		if(this.selectedChecklistName=='')
@@ -89,10 +88,12 @@ export class DistributeTaskComponent{
 	  		.getDistributeTasks()
 	  		.then(tasks => {
 	  			this.distributeTaskList = tasks;
-	  			// this.selectedTask = tasks[0];
+	  			console.log(tasks)
 	  			this.updateSelectedTask();
 	  			this.load = false;
 	  		})
+	  		.catch(err =>
+	  			console.log(err))
 	  }
 
 	  ngOnInit():void {
@@ -117,10 +118,12 @@ export class DistributeTaskComponent{
 	  	this.selectedSpecial.complete = this.specialDelete?'delete':'complete';
 	  	this.selectedTask.special = JSON.stringify(this.selectedSpecial);
 	  	this.selectedTask.checklist =  this.selectedChecklistName + ';' + this.selectedChecklist.map((v,i) =>  v.name + (v.complete?' +':'')).join(';');
+	  	this.selectedTask.list_key = this.selectedType;
 	  }
 
 	  saveTask():void {
 	  	this.fillSelectedTask();
+	  	console.log(this.selectedTask);
 	  	this.TaskService.saveDistributeTask(this.selectedTask)
 	  	.then(resp => console.log(resp.toString()));
 		this.distributeTaskList.splice(0,1);
@@ -143,5 +146,5 @@ export class checklistItem{
 
 
 export class special{
-	complete:String;
+	complete?:String;
 }

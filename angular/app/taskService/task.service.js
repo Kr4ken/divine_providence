@@ -25,7 +25,7 @@ var TaskService = (function () {
     TaskService.prototype.getDistributeTasks = function () {
         return this.http.get(this.taskUrl + 'distribute/')
             .toPromise()
-            .then(function (response) { return response.json(); });
+            .then(function (response) { console.log(response.json()); return response.json(); });
     };
     TaskService.prototype.getTaskTypes = function () {
         return this.http.get(this.taskUrl + 'types/')

@@ -65,8 +65,9 @@ def taskTypes(request):
 def distributeTasks(request, key):
     if request.method == 'GET':
         tasks = tw.get_distribute_tasks()
-        serializer = TaskSerializer(tasks,many=True)
-        return JsonResponse(serializer.data,safe=False)
+        serializer = TaskSerializer(tasks, many=True)
+        print(JsonResponse(serializer.data, safe=False).getvalue())
+        return JsonResponse(serializer.data, safe=False)
     if request.method == 'DELETE':
         tw.delete_task(key)
         return HttpResponse(status=200, content='Ok')

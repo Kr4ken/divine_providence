@@ -193,7 +193,7 @@ class TrelloWrapper:
 		if task.list_key != IdController.get_list_id_on_board('Входящие', 'Прогресс'):
 			print('Save interest')
 			card.change_board(IdController.get_board_id('Интересы'), task.list_key)
-			int = Interest(key = task.key,name = task.name, img = task.image,list_key = task.list_key,list_name = IdController.get_list_name(task.list_key),description = task.description,ord_pos = card.pos)
+			int = Interest(key=task.key, name=task.name, img=task.image, list_key=task.list_key, list_name=IdController.get_list_name(task.list_key), description=task.description, ord_pos=card.pos)
 			int.save()
 			task.delete()
 			print('Complete')
@@ -232,7 +232,7 @@ class TrelloWrapper:
 		if task.description is not None:
 			card.set_description(task.description + ' [special](' +  task.special + ')')
 		if task.name is not None:
-			card.set_name(task.name +' [' +  task.duration + ']')
+			card.set_name(task.name +' [' +  str(task.duration) + ']')
 		if task.checklist is not None:
 			card.fetch_checklists()
 			clName = task.checklist.split(';')[0]
@@ -241,9 +241,6 @@ class TrelloWrapper:
 			if len(card.checklists) > 0:
 				card.checklists[0].delete()
 			card.add_checklist(clName,clN,clC)
-
-		if task.list_key is not None:
-			card.change_list(task.list_key)
 
 		if task.list_key is not None:
 			card.change_list(task.list_key)

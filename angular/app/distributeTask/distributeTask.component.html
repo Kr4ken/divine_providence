@@ -50,13 +50,13 @@
                     <!-- Выполнить до -->
                     <div class="form-group col-md-3">
                         <label for="due">Выполнить до:</label>
-                        <input [(ngModel)]="selectedTask.due_date" type="text" class="form-control" id="due">
+                        <input [(ngModel)]="selectedTask.due_date" type="datetime" class="form-control" id="due">
                     </div>
                     <!-- Тип  -->
                     <div class="form-group col-md-3">
                         <label for="type">Тип задачи:</label>
                         <select [(ngModel)]="selectedType" class="form-control">
-                            <option *ngFor="let type of taskTypes" value="type.key">{{type.name}}</option>
+                            <option *ngFor="let type of taskTypes"  [ngValue] = "type.key"> {{type.name}} </option>
                         </select>
                     </div>
                 </div>

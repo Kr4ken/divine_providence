@@ -23,7 +23,7 @@ export class TaskService {
   getDistributeTasks(): Promise<Task[]> {
     return this.http.get(this.taskUrl + 'distribute/')
                .toPromise()
-               .then(response =>response.json() as Task[])
+               .then(response => {console.log(response.json()) ; return response.json() as Task[]})
    }
 
    getTaskTypes():Promise<TaskType[]> {

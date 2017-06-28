@@ -18,23 +18,26 @@ var DistributeTaskComponent = (function () {
         this.load = true;
     }
     DistributeTaskComponent.prototype.updateSelectedTask = function () {
-        if (this.distributeTaskList && this.distributeTaskList.length > 1) {
+        if (this.distributeTaskList && this.distributeTaskList.length > 0) {
             this.selectedTask = this.distributeTaskList[0];
             var checklist = void 0;
-            checklist = this.selectedTask.checklist.split(';');
-            this.selectedChecklist = [];
-            this.selectedChecklistName = checklist[0];
-            checklist.splice(0, 1);
-            for (var _i = 0, checklist_1 = checklist; _i < checklist_1.length; _i++) {
-                var check = checklist_1[_i];
-                console.log(check);
-                var checkName = void 0;
-                var checked = void 0;
-                checked = check.endsWith(" +");
-                checkName = checked ? check.substring(0, check.length - 2) : check;
-                this.selectedChecklist.push(new checklistItem(checked, checkName));
-                this.newChecklistItem = new checklistItem(false, "");
+            console.log(this.selectedTask.checklist);
+            if (this.selectedTask.checklist != '') {
+                checklist = this.selectedTask.checklist.split(';');
+                this.selectedChecklist = [];
+                this.selectedChecklistName = checklist[0];
+                checklist.splice(0, 1);
+                for (var _i = 0, checklist_1 = checklist; _i < checklist_1.length; _i++) {
+                    var check = checklist_1[_i];
+                    console.log(check);
+                    var checkName = void 0;
+                    var checked = void 0;
+                    checked = check.endsWith(" +");
+                    checkName = checked ? check.substring(0, check.length - 2) : check;
+                    this.selectedChecklist.push(new checklistItem(checked, checkName));
+                }
             }
+            this.newChecklistItem = new checklistItem(false, "");
             this.selectedSpecial = JSON.parse(this.selectedTask.special.toString());
             this.specialDelete = this.selectedSpecial.complete == 'delete';
         }
@@ -42,10 +45,6 @@ var DistributeTaskComponent = (function () {
             this.selectedTask = null;
         }
     };
-    // spercialDeleteChange():void{
-    // 	this.selectedSpecial.complete =  this.selectedSpecial.complete == "delete"?"complete":"delete";
-    // 	console.log(this.selectedSpecial);
-    // }
     DistributeTaskComponent.prototype.checkListClear = function () {
         if (this.selectedChecklistName == '') {
             this.selectedChecklist = [];
@@ -72,9 +71,12 @@ var DistributeTaskComponent = (function () {
             .getDistributeTasks()
             .then(function (tasks) {
             _this.distributeTaskList = tasks;
-            // this.selectedTask = tasks[0];
+            console.log(tasks);
             _this.updateSelectedTask();
             _this.load = false;
+        })
+            .catch(function (err) {
+            return console.log(err);
         });
     };
     DistributeTaskComponent.prototype.ngOnInit = function () {
@@ -97,9 +99,11 @@ var DistributeTaskComponent = (function () {
         this.selectedSpecial.complete = this.specialDelete ? 'delete' : 'complete';
         this.selectedTask.special = JSON.stringify(this.selectedSpecial);
         this.selectedTask.checklist = this.selectedChecklistName + ';' + this.selectedChecklist.map(function (v, i) { return v.name + (v.complete ? ' +' : ''); }).join(';');
+        this.selectedTask.list_key = this.selectedType;
     };
     DistributeTaskComponent.prototype.saveTask = function () {
         this.fillSelectedTask();
+        console.log(this.selectedTask);
         this.TaskService.saveDistributeTask(this.selectedTask)
             .then(function (resp) { return console.log(resp.toString()); });
         this.distributeTaskList.splice(0, 1);
