@@ -4,6 +4,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 
 from .controller.trello_wrapper import TrelloWrapper
+from .controller.habatica_wrapper import HabaticaWrapper
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -15,6 +16,7 @@ from rest_framework.parsers import JSONParser
 from .models import Task
 
 tw = TrelloWrapper()
+hw = HabaticaWrapper()
 
 @csrf_exempt
 def inputTasks(request, key):
@@ -145,6 +147,11 @@ def sync_input_tasks(request):
     if request.method == 'POST':
         return HttpResponse(status=200, content=tw.fill_input_tasks())
 
+
+@csrf_exempt
+def habitica_sync(request):
+    if request.method == 'POST':
+        return HttpResponse(status=200, content=hw.trello_sync())
 
 
 class AngularApp(TemplateView):

@@ -107,11 +107,12 @@ class TrelloWrapper:
 		board_id = IdController.get_board_id('Прогресс')
 		list_id = IdController.get_list_id_on_board('Входящие', 'Прогресс')
 		board = client.get_board(board_id=board_id)
-		lista = board.get_list(list_id)
-		list_list = [lista]
-		list_id = IdController.get_list_id_on_board('Распределить', 'Прогресс')
-		listb = board.get_list(list_id)
-		list_list.append(listb)
+		list_list = board.list_lists()
+		# lista = board.get_list(list_id)
+		# list_list = [lista]
+		# list_id = IdController.get_list_id_on_board('Распределить', 'Прогресс')
+		# listb = board.get_list(list_id)
+		# list_list.append(listb)
 
 		for list in list_list:
 			print("Load list : " + list.name)

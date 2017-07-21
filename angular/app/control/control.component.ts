@@ -22,6 +22,11 @@ export class ControlComponent{
   statusInputTasks:number = 0;
   syncingInputTasks:boolean = false;
 
+
+  syncHabiticaStatus:String = 'Не выполнялась';
+  statusHabitica:number = 0;
+  syncingHabitica:boolean = false;
+
   constructor(
     private controlService: ControlService) { }
 
@@ -71,6 +76,23 @@ export class ControlComponent{
                   this.syncingInputTasks = false;
                   this.syncInputTasksStatus = err;
                   this.statusInputTasks=2;
+                })
+    }
+
+
+    SyncHabitica():void{
+      console.log('Start')
+      this.syncingHabitica = true;
+      this.controlService.syncHabitica()
+                .then(status => {
+                  this.syncingHabitica = false;
+                  this.syncHabiticaStatus = status;
+                  this.statusHabitica=1;
+                })
+                .catch(err => {
+                  this.syncingHabitica = false;
+                  this.syncHabiticaStatus = err;
+                  this.statusHabitica=2;
                 })
     }
 

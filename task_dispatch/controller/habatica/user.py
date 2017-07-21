@@ -56,7 +56,7 @@ class User(object):
 
 
 	def sync_task(self,task):
-		if(not self.get_task_alias_id(task.alias) is None):
+		if(not self.get_task_alias_id(task["alias"]) is None):
 			self.update_task(task)
 		else:
 			self.add_task(task)

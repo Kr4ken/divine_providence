@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^interests/(?P<key>.+)/$', views.completeInterest, name='getInrerests'),
     url(r'^control/id/sync/$',views.sync_ids,name="Sync_Ids"),
     url(r'^control/int/sync/$',views.sync_interests,name="Sync_Interests"),
-    url(r'^control/input/sync/$',views.sync_input_tasks,name="Sync_Input_Tasks")
+    url(r'^control/input/sync/$',views.sync_input_tasks,name="Sync_Input_Tasks"),
+    url(r'^control/habitica/sync/$',views.habitica_sync,name="Habitica_sync")
 	# url(r'^control/(?p<command>.+)/$',views.comm)
 ]

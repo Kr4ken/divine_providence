@@ -1,3 +1,3 @@
-from habatica.habaticaclient import *
-from habatica.user import *
-from habatica.task import *
+from .habaticaclient import *
+from .user import *
+from .task import *

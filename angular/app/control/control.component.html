@@ -76,6 +76,30 @@
 		</div>
     </div>
 
+    <div class="row">
+       <div class="col-md-4">
+		<button type="button" class="btn btn-primary btn-lg" (click)="SyncHabitica()" [ngClass]="{'disabled':syncingHabitica}">
+			Синхронизировать Habitica
+		</button>
+		</div>
+        <div class="col-md-4">
+        	    <div *ngIf="!syncingHabitica; then thenBlock else elseBlock"></div>
+    			<ng-template #thenBlock> 
+			        <div class="alert" [ngClass]="{'alert-info' : (statusHabitica === 0), 'alert-success' : (statusHabitica === 1), 'alert-danger' : (statusHabitica === 2)}" > 
+			        <!-- <div class="alert alert-info">  -->
+			        {{syncHabiticaStatus}}
+			        </div>
+			    </ng-template>
+    			<ng-template #elseBlock> 
+    				<div class="progress">
+						  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+						  </div>
+						</div>
+
+			    </ng-template>
+		</div>
+    </div>
+
 
 
 </div>

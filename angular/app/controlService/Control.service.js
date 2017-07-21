@@ -35,6 +35,12 @@ var ControlService = (function () {
             .then(function (response) { return response.text(); });
         // .catch(this.handleError)
     };
+    ControlService.prototype.syncHabitica = function () {
+        return this.http.post(this.controlUrl + "habitica/sync/", null)
+            .toPromise()
+            .then(function (response) { return response.text(); });
+        // .catch(this.handleError)
+    };
     ControlService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);

@@ -10,7 +10,7 @@ class Task(models.Model):
 	# type
 	list_key = models.CharField(max_length=30)
 	checklist = models.CharField(max_length=5000, null=True)
-	due_date = models.DateField(null=True)
+	due_date = models.DateTimeField(null=True)
 	attribute = models.CharField(max_length=1, null=True)
 	labels = models.CharField(max_length=2, null=True)
 	special = models.CharField(max_length=1000, null=True)
@@ -18,7 +18,6 @@ class Task(models.Model):
 
 	def __str__(self):
 		return self.name
-
 
 class IdObject(models.Model):
 	CARD_TYPE=0
